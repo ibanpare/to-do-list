@@ -1,5 +1,5 @@
 Before diving into the code, take a minute to think about how you are going to want to organize your project.
-- webpack setup, need to review how it works and consider custom npm scripts just to practice
+- webpack setup, need to review how it works and consider custom npm scripts just to practice DONE
 - make it work fully from console first
 - then build UI
 - I'll generate todos with a factory function, I prefer them to classes 
