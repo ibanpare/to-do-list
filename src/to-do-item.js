@@ -7,6 +7,17 @@ export default function createToDoItem(item) {
     const priority = (!item.priority) ? "medium" : item.priority;
     const notes = item.notes;
     const checklist = item.checklist;
-    const status = (!item.status) ? "open" : item.status;
-    return {name, description, dueDate, priority, notes, checklist, status};
+    let status = (!item.status) ? "open" : item.status;
+
+    const projectId = "default";
+
+    return {name, description, dueDate, priority, notes, checklist, status, projectId};
+}
+
+export function markAsDone(item) {
+    item.status = "done";
+}
+
+export function updateField(item, field, newContent) {
+    item[field] = newContent;
 }
