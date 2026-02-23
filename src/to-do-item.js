@@ -8,7 +8,7 @@ export default function createToDoItem(item, project) {
     let notes = item.notes;
     let checklist = item.checklist;
     let status = (!item.status) ? "open" : item.status;
-    let projectId = project.id;
+    let projectId;
 
     return {name, description, dueDate, priority, notes, checklist, status, projectId};
 }

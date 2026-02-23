@@ -11,17 +11,21 @@ export default function createProject(project) {
 }
 
 export function addToProject(project, toDoItem) {
+    toDoItem.projectId = project.id;
     project.items.push(toDoItem);
 } 
 
 export function removeFromProject(project, toDoItem) {
-    // TO DO
+    toDoItem.projectId = undefined;
+    project.items.splice(project.items.indexOf(toDoItem), 1);
 }
 
 export function getFromProject(project, toDoItem) {
-    // TO DO
+    console.log(project.items[project.items.indexOf(toDoItem)]);
 }
 
-export function displayFromProject(project) {
-    // TO DO
+export function displayProjectItems(project) {
+    for(const item in project.items) {
+        console.log(project.items[item]);
+    }
 }
