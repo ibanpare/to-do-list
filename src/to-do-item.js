@@ -1,6 +1,6 @@
 //factory function to create to do items
 
-export default function createToDoItem(item) {
+export default function createToDoItem(item, project) {
     let name = item.name;
     let description = item.description;
     let dueDate = (!item.dueDate) ? "endOfMonth" : item.dueDate;
@@ -8,8 +8,7 @@ export default function createToDoItem(item) {
     let notes = item.notes;
     let checklist = item.checklist;
     let status = (!item.status) ? "open" : item.status;
-
-    let projectId = "default";
+    let projectId = project.id;
 
     return {name, description, dueDate, priority, notes, checklist, status, projectId};
 }
