@@ -1,5 +1,6 @@
 import project, {addToProject, removeFromProject, getFromProject, displayProjectItems} from "./projects.js";
 import toDo, { markAsDone, updateField, displayToDo } from "./to-do-item.js";
+import { renderProject, renderToDoItem } from "./ui-functions.js"; 
 import "./styles.css";
 
 console.log("Running")
@@ -13,6 +14,8 @@ addToProject(defaultProject, myToDo2);
 
 getFromProject(defaultProject,myToDo);
 
-
+renderProject(defaultProject);
+renderToDoItem(myToDo);
+renderToDoItem(myToDo2);
 
 

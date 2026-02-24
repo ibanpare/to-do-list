@@ -22,3 +22,16 @@ nav {
     flex: 10;
     text-align: center;
 }
+
+.project-container {
+    border: 2px solid darkblue;
+}
+
+.to-do-item {
+    border: solid 1px blue;
+    cursor: pointer;
+}
+
+.to-do-item:hover {
+    background-color: lightgray;
+}
