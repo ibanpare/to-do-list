@@ -26,19 +26,14 @@ export function renderToDoItem(item) {
     const projectContainer = document.querySelector(".project-container");
 
     projectContainer.appendChild(toDoDiv);
-    projectContainer.append(toDoContent);
+    toDoDiv.append(toDoContent);
 }
 
 export function expandToDoItem() {
     const toDoItem = document.querySelectorAll(".to-do-item");
     toDoItem.forEach((item) => item.addEventListener("click", function (event) {
-        const toDoItemContent = event.target.nextElementSibling;
-        if (toDoItemContent.classList.contains("collapsed")) {
-            toDoItemContent.classList.remove("collapsed");
-        }
-        else {
-            toDoItemContent.classList.add("collapsed");
-        }
+        const toDoItemContent = event.currentTarget.querySelector(".to-do-content");
+        toDoItemContent.classList.toggle("collapsed");
     }));
 
 };
