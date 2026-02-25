@@ -11,18 +11,37 @@ export function renderProject(project) {
 export function renderToDoItem(item) {
     const toDoDiv = document.createElement("div");
     toDoDiv.textContent = `- ${item.name}, due ${item.dueDate}`;
-    toDoDiv.setAttribute("class", "to-do-item collapsed");
+    toDoDiv.classList.add("to-do-item");
+
+    const toDoContent = document.createElement("ul");
+    toDoContent.classList.add("to-do-content", "collapsed");
+
+    for (const prop in item) {
+        if (prop === "name" || prop === "dueDate") continue;
+        const toDoContentLine = document.createElement("li");
+        toDoContentLine.textContent = item[prop];
+        toDoContent.appendChild(toDoContentLine);
+    }
 
     const projectContainer = document.querySelector(".project-container");
 
     projectContainer.appendChild(toDoDiv);
+    projectContainer.append(toDoContent);
 }
 
-export function expandToDoItem(item) {
-    // TO DO
-    // Da capire se ne serve una per richiuderlo o è la stessa
-    
-}
+export function expandToDoItem() {
+    const toDoItem = document.querySelectorAll(".to-do-item");
+    toDoItem.forEach((item) => item.addEventListener("click", function (event) {
+        const toDoItemContent = event.target.nextElementSibling;
+        if (toDoItemContent.classList.contains("collapsed")) {
+            toDoItemContent.classList.remove("collapsed");
+        }
+        else {
+            toDoItemContent.classList.add("collapsed");
+        }
+    }));
+
+};
 
 export function completeToDoItem(item) {
     // TO DO

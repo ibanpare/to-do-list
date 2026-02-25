@@ -90,3 +90,11 @@ nav {
 .to-do-item:hover {
     background-color: lightgray;
 }
+
+.to-do-content {
+  display: block;
+}
+
+.to-do-content.collapsed {
+  display: none;
+}
