@@ -46,6 +46,19 @@ export function deleteToDoItem(item) {
     // TO DO
 }
 
-export function addToDoItem(item, project) {
-    // TO DO
+export function addToDoItem(project) {
+    /* TO DO
+    Apre modal con form
+    alla chiusura la modal chiama createToDoItem(item, project) passando il project scelto
+    per ora passiamo default project, poi capiremo come separare
+    per ora dovrò sempre chiamare renderToDoItem dopo averlo creato
+
+    Ho dubbi su come spacchettare
+    */
+
+    const addBtn = document.querySelector(".add-to-do");
+    const formModal = document.querySelector(".form-modal");
+    addBtn.addEventListener("click", () => {
+        formModal.style.display = "block";
+        });
 }

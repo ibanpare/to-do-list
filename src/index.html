@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To Do List</title>
 </head>
+
 <body>
     <header>
         <nav>
@@ -13,13 +15,43 @@
                 <button class="nav-button">Multi-select dropdown</button>
             </div>
             <h1 class="main-title">To Do List</h1>
-            <button class="nav-button"> Add To Do</button>
+            <button class="nav-button add-to-do"> Add To Do</button>
         </nav>
     </header>
     <div class="project-container">
         <div class="todo-container">
-            
+
         </div>
     </div>
+    <!-- Form Modal -->
+    <div class="form-modal">
+
+        <!-- Modal content -->
+        <div class="form-modal-content">
+            <form action="" class="form">
+                <span class="close">&times;</span>
+                <label for="to-do-name" class="to-do-name">To Do Item name</label>
+                <input type="text" name="to-do-name" id="to-do-name" placeholder="Your to do item name" class="to-do-name">
+                <label for="to-do-description" class="to-do-description">To Do Item description</label>
+                <input type="text" name="to-do-description" id="to-do-description" class="to-do-description" placeholder="Your to do item description">
+                <label for="to-do-dueDate" class="to-do-dueDate">To Do Item due date</label>
+                <input type="datetime-local" name="to-do-dueDate" id="to-do-dueDate" class="to-do-dueDate">
+                <label for="to-do-priority" class="to-do-priority">Priority</label>
+                <select name="to-do-priority" id="to-do-priority" class="to-do-priority">
+                    <option value="none" selected>None</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                    <option value="urgent">Urgent</option>
+                </select>
+                <label for="to-do-notes" class="to-do-notes">Notes</label>
+                <textarea name="to-do-notes" id="to-do-notes" cols="30" rows="3" class="to-do-notes"></textarea>
+                <!-- checklist to do, per ora non me la sento-->
+
+            </form>
+        </div>
+
+    </div>
 </body>
+
 </html>
