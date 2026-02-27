@@ -1,3 +1,6 @@
+import toDo, { markAsDone, updateField, displayToDo } from "./to-do-item.js";
+import project, {addToProject} from "./projects.js";
+
 export function renderProject(project) {
     const projectDiv = document.createElement("div");
     projectDiv.setAttribute("class", "project-container");
@@ -6,6 +9,8 @@ export function renderProject(project) {
 
     const projectContainer = document.querySelector(".project-container");
     projectContainer.appendChild(projectDiv);
+
+    //penso che qui bisogna aggiungere un for in di renderToDoItem
 }
 
 export function renderToDoItem(item) {
@@ -53,12 +58,31 @@ export function addToDoItem(project) {
     per ora passiamo default project, poi capiremo come separare
     per ora dovrò sempre chiamare renderToDoItem dopo averlo creato
 
-    Ho dubbi su come spacchettare
+    Ho dubbi su come spacchettare, sicuramnete c'è troppa roba, intanto faccio questo monster e poi vediamo
     */
 
     const addBtn = document.querySelector(".add-to-do");
     const formModal = document.querySelector(".form-modal");
+    const closeBtn = document.querySelector(".close");
     addBtn.addEventListener("click", () => {
         formModal.style.display = "block";
         });
-}
+    closeBtn.addEventListener("click", () => {
+        formModal.style.display = "none";
+        });
+
+    const submitBtn = document.querySelector("button[type='submit']");
+    submitBtn.addEventListener("click", () => {
+        console.log("submitted");
+
+        const toDoName = document.querySelector("input#to-do-name").value;
+        const toDoDescription = document.querySelector("input#to-do-description").value;
+        const toDoPriority = document.querySelector("select#to-do-priority").value;
+        const toDoDueDate = document.querySelector("input#to-do-dueDate").value;
+        const toDoNotes = document.querySelector("textarea#to-do-notes").value;
+
+        addToProject(project, toDo({name: toDoName, description: toDoDescription, priority: toDoPriority, dueDate: toDoDueDate, notes:toDoNotes}, project));
+        console.log(project);
+
+    })
+    }

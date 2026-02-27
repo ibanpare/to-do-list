@@ -3,6 +3,7 @@ import toDo, { markAsDone, updateField, displayToDo } from "./to-do-item.js";
 import { renderProject, renderToDoItem, expandToDoItem, addToDoItem } from "./ui-functions.js"; 
 import "./styles.css";
 
+// only for testing purposes
 console.log("Running")
 
 const defaultProject = project({name: "Default Project", description: "Default Project created at application start"});
@@ -16,14 +17,23 @@ getFromProject(defaultProject,myToDo);
 
 renderProject(defaultProject);
 
-/* TO DO
-funzione che fa render page
-che prende list all projects
-e fa render to do item
-per ogni item di ogni projects
-*/
-
 renderToDoItem(myToDo);
 renderToDoItem(myToDo2);
 expandToDoItem();
 addToDoItem(defaultProject);
+
+/* TO DO
+gestione pagina forse come scritto sotto
+devo però fare render page ad ogni aggiunta di to do, project o click sui filtri, quindi è in realtà una UI function.
+
+
+funzione che fa render page
+che prende list all projects
+e fa render to do item
+per ogni item di ogni projects
+
+ogni quanto si triggera? a page load basta? 
+così quando creo to do item, faccio submit form, e refreshando parte tutto
+poi con local storage andrà pure meglio
+*/
+

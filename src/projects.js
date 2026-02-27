@@ -29,3 +29,7 @@ export function displayProjectItems(project) {
         console.log(project.items[item]);
     }
 }
+
+export function listProjects() {
+    // list available projects, I assume from local storage
+}
