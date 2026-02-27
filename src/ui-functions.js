@@ -1,5 +1,5 @@
 import toDo, { markAsDone, updateField, displayToDo } from "./to-do-item.js";
-import project, {addToProject} from "./projects.js";
+import project, { addToProject } from "./projects.js";
 
 export function renderToDoItem(item) {
     const toDoDiv = document.createElement("div");
@@ -12,7 +12,7 @@ export function renderToDoItem(item) {
     for (const prop in item) {
         if (prop === "name" || prop === "dueDate") continue;
         const toDoContentLine = document.createElement("li");
-        toDoContentLine.textContent = item[prop];
+        toDoContentLine.textContent = `${prop}: ${item[prop]}`;
         toDoContent.appendChild(toDoContentLine);
     }
 
@@ -28,12 +28,14 @@ export function renderProject(project) {
 
     projectDiv.textContent = `${project.name}, ${project.description}`;
 
-    const projectContainer = document.querySelector(".project-container");
-    projectContainer.appendChild(projectDiv);
+    const mainContainer = document.querySelector(".main-container");
+    mainContainer.appendChild(projectDiv);
 
-    for(const item in project.items) {
+    for (const item in project.items) {
         renderToDoItem(project.items[item]);
     }
+
+    expandToDoItem();
 
 }
 
@@ -69,10 +71,10 @@ export function addToDoItem(project) {
     const closeBtn = document.querySelector(".close");
     addBtn.addEventListener("click", () => {
         formModal.style.display = "block";
-        });
+    });
     closeBtn.addEventListener("click", () => {
         formModal.style.display = "none";
-        });
+    });
 
     const submitBtn = document.querySelector("button[type='submit']");
     submitBtn.addEventListener("click", () => {
@@ -84,8 +86,25 @@ export function addToDoItem(project) {
         const toDoDueDate = document.querySelector("input#to-do-dueDate").value;
         const toDoNotes = document.querySelector("textarea#to-do-notes").value;
 
-        addToProject(project, toDo({name: toDoName, description: toDoDescription, priority: toDoPriority, dueDate: toDoDueDate, notes:toDoNotes}, project));
-        console.log(project);
+        addToProject(project, toDo({ name: toDoName, description: toDoDescription, priority: toDoPriority, dueDate: toDoDueDate, notes: toDoNotes }, project));
+
+        //dovrebbe anche chiudere modal qui
 
     })
-    }
+}
+
+export function renderAllProjects(defaultProject) {
+
+    const seeAllBtn = document.querySelector(".see-all-btn");
+    seeAllBtn.addEventListener("click", () => {
+        //clean up screen
+
+        const mainContainer = document.querySelector(".main-container");
+        const mainContainerChildren = Array.from(mainContainer.children)
+        for (const child of mainContainerChildren) {
+            mainContainer.removeChild(child);
+        }
+        // qui dovrebbe prendere da local storage, per ora prende solo dfeault proj
+        renderProject(defaultProject);
+    })
+}
