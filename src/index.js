@@ -17,8 +17,6 @@ getFromProject(defaultProject,myToDo);
 
 renderProject(defaultProject);
 
-renderToDoItem(myToDo);
-renderToDoItem(myToDo2);
 expandToDoItem();
 addToDoItem(defaultProject);
 

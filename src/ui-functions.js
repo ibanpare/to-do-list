@@ -1,18 +1,6 @@
 import toDo, { markAsDone, updateField, displayToDo } from "./to-do-item.js";
 import project, {addToProject} from "./projects.js";
 
-export function renderProject(project) {
-    const projectDiv = document.createElement("div");
-    projectDiv.setAttribute("class", "project-container");
-
-    projectDiv.textContent = `${project.name}, ${project.description}`;
-
-    const projectContainer = document.querySelector(".project-container");
-    projectContainer.appendChild(projectDiv);
-
-    //penso che qui bisogna aggiungere un for in di renderToDoItem
-}
-
 export function renderToDoItem(item) {
     const toDoDiv = document.createElement("div");
     toDoDiv.textContent = `- ${item.name}, due ${item.dueDate}`;
@@ -32,6 +20,21 @@ export function renderToDoItem(item) {
 
     projectContainer.appendChild(toDoDiv);
     toDoDiv.append(toDoContent);
+}
+
+export function renderProject(project) {
+    const projectDiv = document.createElement("div");
+    projectDiv.setAttribute("class", "project-container");
+
+    projectDiv.textContent = `${project.name}, ${project.description}`;
+
+    const projectContainer = document.querySelector(".project-container");
+    projectContainer.appendChild(projectDiv);
+
+    for(const item in project.items) {
+        renderToDoItem(project.items[item]);
+    }
+
 }
 
 export function expandToDoItem() {
