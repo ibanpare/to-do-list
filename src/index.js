@@ -1,15 +1,19 @@
-import project, {addToProject, removeFromProject, getFromProject, displayProjectItems} from "./projects.js";
-import toDo, { markAsDone, updateField, displayToDo } from "./to-do-item.js";
+import project from "./projects.js";
 import { renderAllProjects, renderProject, renderToDoItem, expandToDoItem, addToDoItem } from "./ui-functions.js"; 
 import "./styles.css";
+import {listProjects} from "./state.js";
 
 // only for testing purposes
 
-const defaultProject = project({name: "Default Project", description: "Default Project created at application start"});
+const projects = listProjects();
+console.log(projects);
 
+const defaultProject = projects[Object.keys(projects)[0]]
+console.log(defaultProject);
 
-addToDoItem(defaultProject);
+addToDoItem(defaultProject.id);
 renderAllProjects(defaultProject);
+
 
 /* TO DO
 gestione pagina forse come scritto sotto

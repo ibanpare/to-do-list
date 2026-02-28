@@ -1,5 +1,7 @@
 import toDo, { markAsDone, updateField, displayToDo } from "./to-do-item.js";
-import project, { addToProject } from "./projects.js";
+import { addToProject } from "./state.js";
+import project from "./projects.js";
+import { saveToLocalStorage } from "./storage.js";
 
 export function renderToDoItem(item) {
     const toDoDiv = document.createElement("div");
@@ -56,7 +58,7 @@ export function deleteToDoItem(item) {
     // TO DO
 }
 
-export function addToDoItem(project) {
+export function addToDoItem(projectId) {
     /* TO DO
     per ora passiamo default project
     poi gli facciamo prendere il project dal form
@@ -88,7 +90,9 @@ export function addToDoItem(project) {
         const toDoDueDate = document.querySelector("input#to-do-dueDate").value;
         const toDoNotes = document.querySelector("textarea#to-do-notes").value;
 
-        addToProject(project, toDo({ name: toDoName, description: toDoDescription, priority: toDoPriority, dueDate: toDoDueDate, notes: toDoNotes }, project));
+        const myToDo = toDo({ name: toDoName, description: toDoDescription, priority: toDoPriority, dueDate: toDoDueDate, notes: toDoNotes }, projectId);
+
+        addToProject(projectId, myToDo);
 
         formModal.style.display = "none";
 
@@ -100,6 +104,7 @@ export function addToDoItem(project) {
             formModal.style.display = "none";
         }
     }
+    
 }
 
 export function renderAllProjects(defaultProject) {

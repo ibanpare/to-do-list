@@ -1,6 +1,7 @@
 //factory function to create to do items
 
-export default function createToDoItem(item, project) {
+export default function createToDoItem(item, projectId) {
+    const id = crypto.randomUUID();
     let name = item.name;
     let description = item.description;
     let dueDate = (!item.dueDate) ? "endOfMonth" : item.dueDate;
@@ -8,21 +9,6 @@ export default function createToDoItem(item, project) {
     let notes = item.notes;
     let checklist = item.checklist;
     let status = (!item.status) ? "open" : item.status;
-    let projectId;
 
-    return {name, description, dueDate, priority, notes, checklist, status, projectId};
-}
-
-export function markAsDone(item) {
-    item.status = "done";
-}
-
-export function updateField(item, field, newContent) {
-    item[field] = newContent;
-}
-
-export function displayToDo(item) {
-    for(const prop in item) {
-        console.log(prop, ":", item[prop]);
-    }
+    return {id, name, description, dueDate, priority, notes, checklist, status, projectId};
 }
