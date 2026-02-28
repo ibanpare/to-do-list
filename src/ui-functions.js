@@ -58,8 +58,6 @@ export function deleteToDoItem(item) {
 
 export function addToDoItem(project) {
     /* TO DO
-    Apre modal con form
-    alla chiusura la modal chiama createToDoItem(item, project) passando il project scelto
     per ora passiamo default project, poi capiremo come separare
     per ora dovrò sempre chiamare renderToDoItem dopo averlo creato
 
@@ -88,9 +86,16 @@ export function addToDoItem(project) {
 
         addToProject(project, toDo({ name: toDoName, description: toDoDescription, priority: toDoPriority, dueDate: toDoDueDate, notes: toDoNotes }, project));
 
-        //dovrebbe anche chiudere modal qui
+        formModal.style.display = "none";
 
     })
+
+    //close modal if user clicks out
+    window.onclick = (event) => {
+        if(event.target == formModal) {
+            formModal.style.display = "none";
+        }
+    }
 }
 
 export function renderAllProjects(defaultProject) {
