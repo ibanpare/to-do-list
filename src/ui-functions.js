@@ -58,8 +58,12 @@ export function deleteToDoItem(item) {
 
 export function addToDoItem(project) {
     /* TO DO
-    per ora passiamo default project, poi capiremo come separare
+    per ora passiamo default project
+    poi gli facciamo prendere il project dal form
+    che dovrà mostrare tutte le opzioni dei project con listAllProjects
+
     per ora dovrò sempre chiamare renderToDoItem dopo averlo creato
+    poi in teoria se submit fa refresh page siamo a posto
 
     Ho dubbi su come spacchettare, sicuramnete c'è troppa roba, intanto faccio questo monster e poi vediamo
     */
