@@ -12,6 +12,15 @@ export function listProjects() {
     // list available projects, I assume from local storage
 }
 
+export function addToProjectsObject(project) {
+    projects[project.id] = project;
+} 
+
+
+export function addToProject(projectId, toDoItem) {
+    projects[projectId].items[toDoItem.id] = toDoItem;
+    //TO DO qui salviamo in local storage
+} 
 
 /*
 
@@ -26,17 +35,9 @@ esporremo solo list projects
 
 //    saveToLocalStorage(name, JSON.stringify{id, name, description, items});
 
-//Project functions
-
-export function addToProjectsObject(project) {
-    projects[project.id] = project;
-} 
+//Project functions (TUTTE DA SISTEMARE)
 
 
-export function addToProject(projectId, toDoItem) {
-    projects[projectId].items[toDoItem.id] = toDoItem;
-    //TO DO qui salviamo in local storage
-} 
 
 export function removeFromProject(project, toDoItem) {
     toDoItem.projectId = undefined;

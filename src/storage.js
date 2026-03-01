@@ -23,12 +23,17 @@ so you’ll have to figure out how to add methods back to your object properties
 */
 
 export function saveToLocalStorage(object) {
-    localStorage.setItem(object.name,JSON.stringify(object));
+    localStorage.setItem(object,JSON.stringify(object));
 }
 
 export function getFromLocalStorage(object) {
+    localStorage.getItem(object);
+}
 
+export function removeFromLocalStorage(object) {
+    localStorage.removeItem(object);
 }
 
 // forse serve anche updateLocalStorage no?
 // per i vari update to do item, delete, ecc
+// secondo me conviene tenere un solo oggetto projects e cancellarlo e risettarlo ogni volta
