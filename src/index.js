@@ -1,19 +1,25 @@
 import project from "./projects.js";
 import { renderAllProjects, renderProject, renderToDoItem, expandToDoItem, addToDoItem } from "./ui-functions.js"; 
 import "./styles.css";
-import {listProjects} from "./state.js";
+import {init, listProjects} from "./state.js";
 
 // only for testing purposes
-
+init();
 const projects = listProjects();
 console.log(projects);
 
+addToDoItem("9afc4e3e-f879-4b8a-8bda-a44e886438ec");
+renderAllProjects(projects);
+
+//const projects = listProjects();
+//console.log(`projects object is ${projects[Object.keys(projects)[0]]}`);
+/*
 const defaultProject = projects[Object.keys(projects)[0]]
 console.log(defaultProject);
 
 addToDoItem(defaultProject.id);
 renderAllProjects(defaultProject);
-
+*/
 
 /* TO DO
 gestione pagina forse come scritto sotto

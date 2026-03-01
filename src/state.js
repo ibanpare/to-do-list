@@ -1,26 +1,46 @@
-import { saveToLocalStorage } from "./storage.js";
+import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage} from "./storage.js";
 import project from "./projects.js"
-
-const defaultProject = project({name: "Default Project", description: "Default Project created at application start"});
 
 let projects = {};
 
-addToProjectsObject(defaultProject);
+/*                                                     
+  2. During runtime → read/write from the in-memory projects                                                                                                                                                   
+  3. After every change → sync the in-memory projects to localStorage  con commit()
+
+*/
+
+export function init() {
+    //this should get from localStorage first
+    const localStorageProjects = getFromLocalStorage("projects");
+    if(localStorageProjects === null) {
+        const defaultProject = project({name: "Default Project", description: "Default Project created at application start"});
+
+        addToProjectsObject(defaultProject);
+    }
+    else {
+        projects = localStorageProjects;
+    }
+}
 
 export function listProjects() {
     return projects;
-    // list available projects, I assume from local storage
 }
 
 export function addToProjectsObject(project) {
     projects[project.id] = project;
+    commit();
 } 
 
 
 export function addToProject(projectId, toDoItem) {
     projects[projectId].items[toDoItem.id] = toDoItem;
-    //TO DO qui salviamo in local storage
+    commit();
 } 
+
+function commit() {
+    removeFromLocalStorage("projects");
+    saveToLocalStorage("projects", projects);
+}
 
 /*
 

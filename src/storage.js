@@ -22,12 +22,12 @@ so you’ll have to figure out how to add methods back to your object properties
 
 */
 
-export function saveToLocalStorage(object) {
-    localStorage.setItem(object,JSON.stringify(object));
+export function saveToLocalStorage(objectName, object) {
+    localStorage.setItem(objectName,JSON.stringify(object));
 }
 
-export function getFromLocalStorage(object) {
-    localStorage.getItem(object);
+export function getFromLocalStorage(objectName) {
+    return JSON.parse(localStorage.getItem(objectName));
 }
 
 export function removeFromLocalStorage(object) {

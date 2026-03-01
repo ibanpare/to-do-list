@@ -1,7 +1,5 @@
 import toDo, { markAsDone, updateField, displayToDo } from "./to-do-item.js";
 import { addToProject } from "./state.js";
-import project from "./projects.js";
-import { saveToLocalStorage } from "./storage.js";
 
 export function renderToDoItem(item) {
     const toDoDiv = document.createElement("div");
@@ -22,23 +20,6 @@ export function renderToDoItem(item) {
 
     projectContainer.appendChild(toDoDiv);
     toDoDiv.append(toDoContent);
-}
-
-export function renderProject(project) {
-    const projectDiv = document.createElement("div");
-    projectDiv.setAttribute("class", "project-container");
-
-    projectDiv.textContent = `${project.name}, ${project.description}`;
-
-    const mainContainer = document.querySelector(".main-container");
-    mainContainer.appendChild(projectDiv);
-
-    for (const item in project.items) {
-        renderToDoItem(project.items[item]);
-    }
-
-    expandToDoItem();
-
 }
 
 export function expandToDoItem() {
@@ -107,7 +88,7 @@ export function addToDoItem(projectId) {
     
 }
 
-export function renderAllProjects(defaultProject) {
+export function renderAllProjects(projects) {
 
     const seeAllBtn = document.querySelector(".see-all-btn");
     seeAllBtn.addEventListener("click", () => {
@@ -118,7 +99,26 @@ export function renderAllProjects(defaultProject) {
         for (const child of mainContainerChildren) {
             mainContainer.removeChild(child);
         }
-        // qui dovrebbe prendere da local storage, per ora prende solo dfeault proj
-        renderProject(defaultProject);
+        // loop through each project in projects
+        for(const proj in projects) {
+            renderProject(projects[proj]);
+        }
     })
+}
+
+export function renderProject(project) {
+    const projectDiv = document.createElement("div");
+    projectDiv.setAttribute("class", "project-container");
+
+    projectDiv.textContent = `${project.name}, ${project.description}`;
+
+    const mainContainer = document.querySelector(".main-container");
+    mainContainer.appendChild(projectDiv);
+
+    for (const item in project.items) {
+        renderToDoItem(project.items[item]);
+    }
+
+    expandToDoItem();
+
 }
