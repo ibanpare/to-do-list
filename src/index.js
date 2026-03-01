@@ -11,16 +11,6 @@ console.log(projects);
 addToDoItem("9afc4e3e-f879-4b8a-8bda-a44e886438ec");
 renderAllProjects(projects);
 
-//const projects = listProjects();
-//console.log(`projects object is ${projects[Object.keys(projects)[0]]}`);
-/*
-const defaultProject = projects[Object.keys(projects)[0]]
-console.log(defaultProject);
-
-addToDoItem(defaultProject.id);
-renderAllProjects(defaultProject);
-*/
-
 /* TO DO
 gestione pagina forse come scritto sotto
 devo però fare render page ad ogni aggiunta di to do, project o click sui filtri, quindi è in realtà una UI function.

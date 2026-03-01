@@ -108,12 +108,17 @@ export function renderAllProjects(projects) {
 
 export function renderProject(project) {
     const projectDiv = document.createElement("div");
+    const projectTitle = document.createElement("h3");
+    const projectDescription = document.createElement("p");
     projectDiv.setAttribute("class", "project-container");
 
-    projectDiv.textContent = `${project.name}, ${project.description}`;
+    projectTitle.textContent = `${project.name}`;
+    projectDescription.textContent = `${project.description}`;
 
     const mainContainer = document.querySelector(".main-container");
     mainContainer.appendChild(projectDiv);
+    projectDiv.appendChild(projectTitle);
+    projectDiv.appendChild(projectDescription);
 
     for (const item in project.items) {
         renderToDoItem(project.items[item]);
