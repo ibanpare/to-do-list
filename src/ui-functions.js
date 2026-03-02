@@ -1,5 +1,5 @@
 import toDo, { markAsDone, updateField, displayToDo } from "./to-do-item.js";
-import { addToProject } from "./state.js";
+import { addToProject, createProject} from "./state.js";
 
 export function renderToDoItem(item) {
     const toDoDiv = document.createElement("div");
@@ -52,8 +52,8 @@ export function addToDoItem(projectId) {
     */
 
     const addBtn = document.querySelector(".add-to-do");
-    const formModal = document.querySelector(".form-modal");
-    const closeBtn = document.querySelector(".close");
+    const formModal = document.querySelector(".to-do-item-form-modal");
+    const closeBtn = formModal.querySelector(".close");
     addBtn.addEventListener("click", () => {
         formModal.style.display = "block";
     });
@@ -61,7 +61,7 @@ export function addToDoItem(projectId) {
         formModal.style.display = "none";
     });
 
-    const submitBtn = document.querySelector("button[type='submit']");
+    const submitBtn = formModal.querySelector("button[type='submit']");
     submitBtn.addEventListener("click", () => {
         console.log("submitted");
 
@@ -126,4 +126,37 @@ export function renderProject(project) {
 
     expandToDoItem();
 
+}
+
+export function addProject() {
+    const addBtn = document.querySelector(".add-project");
+    const formModal = document.querySelector(".add-project-form-modal");
+    const closeBtn = formModal.querySelector(".close");
+    addBtn.addEventListener("click", () => {
+        formModal.style.display = "block";
+    });
+    closeBtn.addEventListener("click", () => {
+        formModal.style.display = "none";
+    });
+
+    const submitBtn = formModal.querySelector("button[type='submit']");
+    submitBtn.addEventListener("click", () => {
+        console.log("submitted");
+
+        const ProjectName = document.querySelector("input#project-name").value;
+        const ProjectDescription = document.querySelector("input#project-description").value;
+
+        createProject(ProjectName, ProjectDescription);
+
+        formModal.style.display = "none";
+
+    })
+
+    //close modal if user clicks out
+    window.onclick = (event) => {
+        if(event.target == formModal) {
+            formModal.style.display = "none";
+        }
+    }
+    
 }

@@ -1,66 +1,108 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>To Do List</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <header>
-        <nav>
-            <div class="header-button-container">
-                <button class="nav-button see-all-btn">See all projects</button>
-                <button class="nav-button">Multi-select dropdown</button>
-            </div>
-            <h1 class="main-title">To Do List</h1>
-            <button class="nav-button add-to-do"> Add To Do</button>
-        </nav>
-    </header>
-    <div class="main-container">
-
-    </div>
-    <!-- Form Modal -->
-    <div class="form-modal">
-
-        <!-- Modal content -->
-        <div class="form-modal-content">
-            <form action="" class="form">
-                <span class="close">&times;</span>
-                <div class="form-group">
-                    <label for="to-do-name">To Do Item name</label>
-                    <input type="text" name="to-do-name" id="to-do-name" placeholder="Your to do item name">
-                </div>
-                <div class="form-group">
-                    <label for="to-do-description">To Do Item description</label>
-                    <input type="text" name="to-do-description" id="to-do-description" placeholder="Your to do item description">
-                </div>
-                <div class="form-group">
-                    <label for="to-do-dueDate">To Do Item due date</label>
-                    <input type="datetime-local" name="to-do-dueDate" id="to-do-dueDate">
-                </div>
-                <div class="form-group">
-                    <label for="to-do-priority">Priority</label>
-                    <select name="to-do-priority" id="to-do-priority">
-                        <option value="none" selected>None</option>
-                        <option value="low">Low</option>
-                        <option value="medium">Medium</option>
-                        <option value="high">High</option>
-                        <option value="urgent">Urgent</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="to-do-notes">Notes</label>
-                    <textarea name="to-do-notes" id="to-do-notes" cols="30" rows="3"></textarea>
-                </div>
-                <!-- checklist to do, per ora non me la sento-->
-
-                <button type="submit" formmethod="dialog">Create To Do</button>
-            </form>
+      <nav>
+        <div class="header-button-container">
+          <button class="nav-button see-all-btn">See all projects</button>
+          <button class="nav-button">Multi-select dropdown</button>
         </div>
+        <h1 class="main-title">To Do List</h1>
+        <button class="nav-button add-to-do">Add To Do</button>
+        <button class="nav-button add-project">Add Project</button>
+      </nav>
+    </header>
+    <div class="main-container"></div>
+    <!-- Form Modal -->
+    <div class="to-do-item-form-modal">
+      <!-- Modal content -->
+      <div class="form-modal-content">
+        <form action="" class="form">
+          <span class="close">&times;</span>
+          <div class="form-group">
+            <label for="to-do-name">To Do Item name</label>
+            <input
+              type="text"
+              name="to-do-name"
+              id="to-do-name"
+              placeholder="Your to do item name"
+            />
+          </div>
+          <div class="form-group">
+            <label for="to-do-description">To Do Item description</label>
+            <input
+              type="text"
+              name="to-do-description"
+              id="to-do-description"
+              placeholder="Your to do item description"
+            />
+          </div>
+          <div class="form-group">
+            <label for="to-do-dueDate">To Do Item due date</label>
+            <input
+              type="datetime-local"
+              name="to-do-dueDate"
+              id="to-do-dueDate"
+            />
+          </div>
+          <div class="form-group">
+            <label for="to-do-priority">Priority</label>
+            <select name="to-do-priority" id="to-do-priority">
+              <option value="none" selected>None</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="urgent">Urgent</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="to-do-notes">Notes</label>
+            <textarea
+              name="to-do-notes"
+              id="to-do-notes"
+              cols="30"
+              rows="3"
+            ></textarea>
+          </div>
+          <!-- checklist to do, per ora non me la sento-->
 
+          <button type="submit" formmethod="dialog">Create To Do</button>
+        </form>
+      </div>
     </div>
-</body>
+    <div class="add-project-form-modal">
+      <!-- Modal content -->
+      <div class="form-modal-content">
+        <form action="" class="form">
+          <span class="close">&times;</span>
+          <div class="form-group">
+            <label for="project-name">Project name</label>
+            <input
+              type="text"
+              name="project-name"
+              id="project-name"
+              placeholder="Your project item name"
+            />
+          </div>
+          <div class="form-group">
+            <label for="project-description">Project description</label>
+            <input
+              type="text"
+              name="project-description"
+              id="project-description"
+              placeholder="Your project description"
+            />
+          </div>
 
+          <button type="submit" formmethod="dialog">Create Project</button>
+        </form>
+      </div>
+    </div>
+  </body>
 </html>

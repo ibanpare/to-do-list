@@ -26,6 +26,12 @@ export function listProjects() {
     return projects;
 }
 
+export function createProject(projectName, projectDescription) {
+    const newProject = project({name: projectName, description: projectDescription});
+    addToProjectsObject(newProject);
+    commit();
+}
+
 export function addToProjectsObject(project) {
     projects[project.id] = project;
     commit();

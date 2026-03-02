@@ -1,5 +1,5 @@
 import project from "./projects.js";
-import { renderAllProjects, renderProject, renderToDoItem, expandToDoItem, addToDoItem } from "./ui-functions.js"; 
+import { renderAllProjects, renderProject, renderToDoItem, expandToDoItem, addToDoItem, addProject } from "./ui-functions.js"; 
 import "./styles.css";
 import {init, listProjects} from "./state.js";
 
@@ -9,6 +9,7 @@ const projects = listProjects();
 console.log(projects);
 
 addToDoItem("9afc4e3e-f879-4b8a-8bda-a44e886438ec");
+addProject();
 renderAllProjects(projects);
 
 /* TO DO
