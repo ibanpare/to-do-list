@@ -128,6 +128,7 @@ export function clickToRenderAllProjects(projects) {
     }
     // loop through each project in projects
     renderAllProjects(projects);
+    expandToDoItem();
   });
 }
 
@@ -150,7 +151,6 @@ export function renderProject(project) {
     renderToDoItem(project.items[item]);
   }
 
-  expandToDoItem();
 }
 
 export function addProject() {
