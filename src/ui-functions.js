@@ -1,46 +1,48 @@
 import toDo, { markAsDone, updateField, displayToDo } from "./to-do-item.js";
-import { addToProject, createProject} from "./state.js";
+import { addToProject, createProject } from "./state.js";
 
 export function renderToDoItem(item) {
-    const toDoDiv = document.createElement("div");
-    toDoDiv.textContent = `- ${item.name}, due ${item.dueDate}`;
-    toDoDiv.classList.add("to-do-item");
+  const toDoDiv = document.createElement("div");
+  toDoDiv.textContent = `- ${item.name}, due ${item.dueDate}`;
+  toDoDiv.classList.add("to-do-item");
 
-    const toDoContent = document.createElement("ul");
-    toDoContent.classList.add("to-do-content", "collapsed");
+  const toDoContent = document.createElement("ul");
+  toDoContent.classList.add("to-do-content", "collapsed");
 
-    for (const prop in item) {
-        if (prop === "name" || prop === "dueDate") continue;
-        const toDoContentLine = document.createElement("li");
-        toDoContentLine.textContent = `${prop}: ${item[prop]}`;
-        toDoContent.appendChild(toDoContentLine);
-    }
+  for (const prop in item) {
+    if (prop === "name" || prop === "dueDate") continue;
+    const toDoContentLine = document.createElement("li");
+    toDoContentLine.textContent = `${prop}: ${item[prop]}`;
+    toDoContent.appendChild(toDoContentLine);
+  }
 
-    const projectContainer = document.querySelector(".project-container");
+  const projectContainer = document.querySelector(".project-container");
 
-    projectContainer.appendChild(toDoDiv);
-    toDoDiv.append(toDoContent);
+  projectContainer.appendChild(toDoDiv);
+  toDoDiv.append(toDoContent);
 }
 
 export function expandToDoItem() {
-    const toDoItem = document.querySelectorAll(".to-do-item");
-    toDoItem.forEach((item) => item.addEventListener("click", function (event) {
-        const toDoItemContent = event.currentTarget.querySelector(".to-do-content");
-        toDoItemContent.classList.toggle("collapsed");
-    }));
-
-};
+  const toDoItem = document.querySelectorAll(".to-do-item");
+  toDoItem.forEach((item) =>
+    item.addEventListener("click", function (event) {
+      const toDoItemContent =
+        event.currentTarget.querySelector(".to-do-content");
+      toDoItemContent.classList.toggle("collapsed");
+    }),
+  );
+}
 
 export function completeToDoItem(item) {
-    // TO DO
+  // TO DO
 }
 
 export function deleteToDoItem(item) {
-    // TO DO
+  // TO DO
 }
 
 export function addToDoItem(projectId) {
-    /* TO DO
+  /* TO DO
     per ora passiamo default project
     poi gli facciamo prendere il project dal form
     che dovrà mostrare tutte le opzioni dei project con listAllProjects
@@ -51,112 +53,123 @@ export function addToDoItem(projectId) {
     Ho dubbi su come spacchettare, sicuramnete c'è troppa roba, intanto faccio questo monster e poi vediamo
     */
 
-    const addBtn = document.querySelector(".add-to-do");
-    const formModal = document.querySelector(".to-do-item-form-modal");
-    const closeBtn = formModal.querySelector(".close");
-    addBtn.addEventListener("click", () => {
-        formModal.style.display = "block";
-    });
-    closeBtn.addEventListener("click", () => {
-        formModal.style.display = "none";
-    });
+  const addBtn = document.querySelector(".add-to-do");
+  const formModal = document.querySelector(".to-do-item-form-modal");
+  const closeBtn = formModal.querySelector(".close");
+  addBtn.addEventListener("click", () => {
+    formModal.style.display = "block";
+  });
+  closeBtn.addEventListener("click", () => {
+    formModal.style.display = "none";
+  });
 
-    const submitBtn = formModal.querySelector("button[type='submit']");
-    submitBtn.addEventListener("click", () => {
-        console.log("submitted");
+  const submitBtn = formModal.querySelector("button[type='submit']");
+  submitBtn.addEventListener("click", () => {
+    console.log("submitted");
 
-        const toDoName = document.querySelector("input#to-do-name").value;
-        const toDoDescription = document.querySelector("input#to-do-description").value;
-        const toDoPriority = document.querySelector("select#to-do-priority").value;
-        const toDoDueDate = document.querySelector("input#to-do-dueDate").value;
-        const toDoNotes = document.querySelector("textarea#to-do-notes").value;
+    const toDoName = document.querySelector("input#to-do-name").value;
+    const toDoDescription = document.querySelector(
+      "input#to-do-description",
+    ).value;
+    const toDoPriority = document.querySelector("select#to-do-priority").value;
+    const toDoDueDate = document.querySelector("input#to-do-dueDate").value;
+    const toDoNotes = document.querySelector("textarea#to-do-notes").value;
 
-        const myToDo = toDo({ name: toDoName, description: toDoDescription, priority: toDoPriority, dueDate: toDoDueDate, notes: toDoNotes }, projectId);
+    const myToDo = toDo(
+      {
+        name: toDoName,
+        description: toDoDescription,
+        priority: toDoPriority,
+        dueDate: toDoDueDate,
+        notes: toDoNotes,
+      },
+      projectId,
+    );
 
-        addToProject(projectId, myToDo);
+    addToProject(projectId, myToDo);
 
-        formModal.style.display = "none";
+    formModal.style.display = "none";
+  });
 
-    })
-
-    //close modal if user clicks out
-    window.onclick = (event) => {
-        if(event.target == formModal) {
-            formModal.style.display = "none";
-        }
+  //close modal if user clicks out
+  window.onclick = (event) => {
+    if (event.target == formModal) {
+      formModal.style.display = "none";
     }
-    
+  };
 }
 
 export function renderAllProjects(projects) {
+  for (const proj in projects) {
+    renderProject(projects[proj]);
+  }
+}
 
-    const seeAllBtn = document.querySelector(".see-all-btn");
-    seeAllBtn.addEventListener("click", () => {
-        //clean up screen
+export function clickToRenderAllProjects(projects) {
+  const seeAllBtn = document.querySelector(".see-all-btn");
+  seeAllBtn.addEventListener("click", () => {
+    //clean up screen
 
-        const mainContainer = document.querySelector(".main-container");
-        const mainContainerChildren = Array.from(mainContainer.children)
-        for (const child of mainContainerChildren) {
-            mainContainer.removeChild(child);
-        }
-        // loop through each project in projects
-        for(const proj in projects) {
-            renderProject(projects[proj]);
-        }
-    })
+    const mainContainer = document.querySelector(".main-container");
+    const mainContainerChildren = Array.from(mainContainer.children);
+    for (const child of mainContainerChildren) {
+      mainContainer.removeChild(child);
+    }
+    // loop through each project in projects
+    renderAllProjects(projects);
+  });
 }
 
 export function renderProject(project) {
-    const projectDiv = document.createElement("div");
-    const projectTitle = document.createElement("h3");
-    const projectDescription = document.createElement("p");
-    projectDiv.setAttribute("class", "project-container");
+  const projectDiv = document.createElement("div");
+  const projectTitle = document.createElement("h3");
+  const projectDescription = document.createElement("p");
+  projectDiv.setAttribute("class", "project-container");
 
-    projectTitle.textContent = `${project.name}`;
-    projectDescription.textContent = `${project.description}`;
+  projectTitle.textContent = `${project.name}`;
+  projectDescription.textContent = `${project.description}`;
 
-    const mainContainer = document.querySelector(".main-container");
-    mainContainer.appendChild(projectDiv);
-    projectDiv.appendChild(projectTitle);
-    projectDiv.appendChild(projectDescription);
+  const mainContainer = document.querySelector(".main-container");
+  mainContainer.appendChild(projectDiv);
+  projectDiv.appendChild(projectTitle);
+  projectDiv.appendChild(projectDescription);
 
-    for (const item in project.items) {
-        renderToDoItem(project.items[item]);
-    }
+  for (const item in project.items) {
+    renderToDoItem(project.items[item]);
+  }
 
-    expandToDoItem();
-
+  expandToDoItem();
 }
 
 export function addProject() {
-    const addBtn = document.querySelector(".add-project");
-    const formModal = document.querySelector(".add-project-form-modal");
-    const closeBtn = formModal.querySelector(".close");
-    addBtn.addEventListener("click", () => {
-        formModal.style.display = "block";
-    });
-    closeBtn.addEventListener("click", () => {
-        formModal.style.display = "none";
-    });
+  const addBtn = document.querySelector(".add-project");
+  const formModal = document.querySelector(".add-project-form-modal");
+  const closeBtn = formModal.querySelector(".close");
+  addBtn.addEventListener("click", () => {
+    formModal.style.display = "block";
+  });
+  closeBtn.addEventListener("click", () => {
+    formModal.style.display = "none";
+  });
 
-    const submitBtn = formModal.querySelector("button[type='submit']");
-    submitBtn.addEventListener("click", () => {
-        console.log("submitted");
+  const submitBtn = formModal.querySelector("button[type='submit']");
+  submitBtn.addEventListener("click", () => {
+    console.log("submitted");
 
-        const ProjectName = document.querySelector("input#project-name").value;
-        const ProjectDescription = document.querySelector("input#project-description").value;
+    const ProjectName = document.querySelector("input#project-name").value;
+    const ProjectDescription = document.querySelector(
+      "input#project-description",
+    ).value;
 
-        createProject(ProjectName, ProjectDescription);
+    createProject(ProjectName, ProjectDescription);
 
-        formModal.style.display = "none";
+    formModal.style.display = "none";
+  });
 
-    })
-
-    //close modal if user clicks out
-    window.onclick = (event) => {
-        if(event.target == formModal) {
-            formModal.style.display = "none";
-        }
+  //close modal if user clicks out
+  window.onclick = (event) => {
+    if (event.target == formModal) {
+      formModal.style.display = "none";
     }
-    
+  };
 }
