@@ -3,8 +3,19 @@ import { addToProject, createProject, listProjects } from "./state.js";
 
 export function renderToDoItem(item) {
   const toDoDiv = document.createElement("div");
-  toDoDiv.textContent = `- ${item.name}, due ${item.dueDate}`;
   toDoDiv.classList.add("to-do-item");
+
+  const toDoTitle = document.createElement("h4");
+  toDoTitle.classList.add("to-do-title");
+  toDoTitle.textContent = `- ${item.name}, due ${item.dueDate}`;
+
+  const deleteIcon = document.createElement("span");
+  deleteIcon.classList.add("material-symbols-outlined", "delete");
+  deleteIcon.textContent = "delete";
+
+  const checkboxIcon = document.createElement("span");
+  checkboxIcon.classList.add("material-symbols-outlined", "check_box");
+  checkboxIcon.textContent = "check_box";
 
   const toDoContent = document.createElement("ul");
   toDoContent.classList.add("to-do-content", "collapsed");
@@ -19,26 +30,40 @@ export function renderToDoItem(item) {
   const projectContainer = document.getElementById(`${item.projectId}`);
 
   projectContainer.appendChild(toDoDiv);
-  toDoDiv.append(toDoContent);
+  toDoDiv.appendChild(toDoTitle);
+  toDoDiv.appendChild(deleteIcon);
+  toDoDiv.appendChild(checkboxIcon);
+  toDoDiv.appendChild(toDoContent);
 }
 
 export function expandToDoItem() {
-  const toDoItem = document.querySelectorAll(".to-do-item");
-  toDoItem.forEach((item) =>
+  const toDoTitle = document.querySelectorAll(".to-do-title");
+  toDoTitle.forEach((item) =>
     item.addEventListener("click", function (event) {
-      const toDoItemContent =
-        event.currentTarget.querySelector(".to-do-content");
+      const toDoItemDiv = event.target.parentElement;
+      const toDoItemContent = toDoItemDiv.querySelector(".to-do-content");
       toDoItemContent.classList.toggle("collapsed");
     }),
   );
 }
 
-export function completeToDoItem(item) {
-  // TO DO
+export function completeToDoItem() {
+  //POSSIBLE REFACTOR in a single one for expand, complete, delete
+  const checkbox = document.querySelectorAll(".check_box");
+  checkbox.forEach((item) => {
+    item.addEventListener("click", () => {
+      console.log("checkbox clicked");
+    });
+  });
 }
 
-export function deleteToDoItem(item) {
-  // TO DO
+export function deleteToDoItem() {
+  const checkbox = document.querySelectorAll(".delete");
+  checkbox.forEach((item) => {
+    item.addEventListener("click", () => {
+      console.log("delete clicked");
+    });
+  });
 }
 
 export function addToDoItem() {
@@ -58,11 +83,11 @@ export function addToDoItem() {
   (function createProjectSelectOptions() {
     const projects = listProjects();
 
-    for(const proj in projects){
-        const projectOption = document.createElement("option");
-        projectOption.value = proj;
-        projectOption.textContent = projects[proj].name;
-        projectSelect.appendChild(projectOption);
+    for (const proj in projects) {
+      const projectOption = document.createElement("option");
+      projectOption.value = proj;
+      projectOption.textContent = projects[proj].name;
+      projectSelect.appendChild(projectOption);
     }
   })();
 
@@ -84,7 +109,9 @@ export function addToDoItem() {
     const toDoPriority = document.querySelector("select#to-do-priority").value;
     const toDoDueDate = document.querySelector("input#to-do-dueDate").value;
     const toDoNotes = document.querySelector("textarea#to-do-notes").value;
-    const projectId = document.querySelector("#project-select option:checked").value;
+    const projectId = document.querySelector(
+      "#project-select option:checked",
+    ).value;
 
     const myToDo = toDo(
       {
@@ -114,6 +141,9 @@ export function renderAllProjects(projects) {
   for (const proj in projects) {
     renderProject(projects[proj]);
   }
+  expandToDoItem();
+  completeToDoItem();
+  deleteToDoItem();
 }
 
 export function clickToRenderAllProjects(projects) {
@@ -129,6 +159,8 @@ export function clickToRenderAllProjects(projects) {
     // loop through each project in projects
     renderAllProjects(projects);
     expandToDoItem();
+    completeToDoItem();
+    deleteToDoItem();
   });
 }
 
@@ -137,7 +169,7 @@ export function renderProject(project) {
   const projectTitle = document.createElement("h3");
   const projectDescription = document.createElement("p");
   projectDiv.setAttribute("class", "project-container");
-  projectDiv.setAttribute("id",project.id)
+  projectDiv.setAttribute("id", project.id);
 
   projectTitle.textContent = `${project.name}`;
   projectDescription.textContent = `${project.description}`;
@@ -150,7 +182,6 @@ export function renderProject(project) {
   for (const item in project.items) {
     renderToDoItem(project.items[item]);
   }
-
 }
 
 export function addProject() {
