@@ -1,5 +1,5 @@
 import toDo, { markAsDone, updateField, displayToDo } from "./to-do-item.js";
-import { addToProject, createProject } from "./state.js";
+import { addToProject, createProject, listProjects } from "./state.js";
 
 export function renderToDoItem(item) {
   const toDoDiv = document.createElement("div");
@@ -56,6 +56,19 @@ export function addToDoItem(projectId) {
   const addBtn = document.querySelector(".add-to-do");
   const formModal = document.querySelector(".to-do-item-form-modal");
   const closeBtn = formModal.querySelector(".close");
+  const projectSelect = document.querySelector("select#project-select");
+
+  (function createProjectSelectOptions() {
+    const projects = listProjects();
+
+    for(const proj in projects){
+        const projectOption = document.createElement("option");
+        projectOption.value = proj;
+        projectOption.textContent = projects[proj].name;
+        projectSelect.appendChild(projectOption);
+    }
+  })();
+
   addBtn.addEventListener("click", () => {
     formModal.style.display = "block";
   });
