@@ -16,7 +16,7 @@ export function renderToDoItem(item) {
     toDoContent.appendChild(toDoContentLine);
   }
 
-  const projectContainer = document.querySelector(".project-container");
+  const projectContainer = document.getElementById(`${item.projectId}`);
 
   projectContainer.appendChild(toDoDiv);
   toDoDiv.append(toDoContent);
@@ -41,11 +41,8 @@ export function deleteToDoItem(item) {
   // TO DO
 }
 
-export function addToDoItem(projectId) {
+export function addToDoItem() {
   /* TO DO
-    per ora passiamo default project
-    poi gli facciamo prendere il project dal form
-    che dovrà mostrare tutte le opzioni dei project con listAllProjects
 
     per ora dovrò sempre chiamare renderToDoItem dopo averlo creato
     poi in teoria se submit fa refresh page siamo a posto
@@ -87,6 +84,7 @@ export function addToDoItem(projectId) {
     const toDoPriority = document.querySelector("select#to-do-priority").value;
     const toDoDueDate = document.querySelector("input#to-do-dueDate").value;
     const toDoNotes = document.querySelector("textarea#to-do-notes").value;
+    const projectId = document.querySelector("#project-select option:checked").value;
 
     const myToDo = toDo(
       {
@@ -138,6 +136,7 @@ export function renderProject(project) {
   const projectTitle = document.createElement("h3");
   const projectDescription = document.createElement("p");
   projectDiv.setAttribute("class", "project-container");
+  projectDiv.setAttribute("id",project.id)
 
   projectTitle.textContent = `${project.name}`;
   projectDescription.textContent = `${project.description}`;

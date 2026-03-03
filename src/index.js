@@ -8,6 +8,6 @@ const projects = listProjects();
 console.log(projects);
 renderAllProjects(projects);
 
-addToDoItem("9afc4e3e-f879-4b8a-8bda-a44e886438ec");
+addToDoItem();
 addProject();
 clickToRenderAllProjects(projects);
