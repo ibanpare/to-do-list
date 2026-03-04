@@ -4,10 +4,8 @@ import "./styles.css";
 import {init, listProjects} from "./state.js";
 
 init();
-const projects = listProjects();
-console.log(projects);
-renderAllProjects(projects);
+renderAllProjects();
 
 addToDoItem();
 addProject();
-clickToRenderAllProjects(projects);
+clickToRenderAllProjects();

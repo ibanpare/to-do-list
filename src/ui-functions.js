@@ -1,5 +1,10 @@
 import toDo, { markAsDone, updateField, displayToDo } from "./to-do-item.js";
-import { addToProject, createProject, listProjects, removeToDoItem } from "./state.js";
+import {
+  addToProject,
+  createProject,
+  listProjects,
+  removeToDoItem,
+} from "./state.js";
 
 export function renderToDoItem(item) {
   const toDoDiv = document.createElement("div");
@@ -66,9 +71,8 @@ export function deleteToDoItem() {
     item.addEventListener("click", (event) => {
       console.log("delete clicked");
       console.log(event.target.id);
-      removeToDoItem(event.target.id)
-      //orrendo refresh, da sistemare
-      location.reload();
+      removeToDoItem(event.target.id);
+      renderAllProjects();
     });
   });
 }
@@ -134,6 +138,7 @@ export function addToDoItem() {
     addToProject(projectId, myToDo);
 
     formModal.style.display = "none";
+    renderAllProjects();
   });
 
   //close modal if user clicks out
@@ -144,7 +149,13 @@ export function addToDoItem() {
   };
 }
 
-export function renderAllProjects(projects) {
+export function renderAllProjects() {
+  const projects = listProjects();
+  const mainContainer = document.querySelector(".main-container");
+  const mainContainerChildren = Array.from(mainContainer.children);
+  for (const child of mainContainerChildren) {
+    mainContainer.removeChild(child);
+  }
   for (const proj in projects) {
     renderProject(projects[proj]);
   }
@@ -153,7 +164,8 @@ export function renderAllProjects(projects) {
   deleteToDoItem();
 }
 
-export function clickToRenderAllProjects(projects) {
+export function clickToRenderAllProjects() {
+  const projects = listProjects();
   const seeAllBtn = document.querySelector(".see-all-btn");
   seeAllBtn.addEventListener("click", () => {
     //clean up screen
@@ -214,6 +226,7 @@ export function addProject() {
     createProject(ProjectName, ProjectDescription);
 
     formModal.style.display = "none";
+    renderAllProjects();
   });
 
   //close modal if user clicks out
