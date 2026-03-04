@@ -1,5 +1,9 @@
-import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage} from "./storage.js";
-import project from "./projects.js"
+import {
+  saveToLocalStorage,
+  getFromLocalStorage,
+  removeFromLocalStorage,
+} from "./storage.js";
+import project from "./projects.js";
 
 let projects = {};
 
@@ -10,94 +14,91 @@ let projects = {};
 */
 
 export function init() {
-    //this should get from localStorage first
-    const localStorageProjects = getFromLocalStorage("projects");
-    if(localStorageProjects === null) {
-        const defaultProject = project({name: "Default Project", description: "Default Project created at application start"});
+  const localStorageProjects = getFromLocalStorage("projects");
+  if (localStorageProjects === null) {
+    const defaultProject = project({
+      name: "Default Project",
+      description: "Default Project created at application start",
+    });
 
-        addToProjectsObject(defaultProject);
-    }
-    else {
-        projects = localStorageProjects;
-    }
+    addToProjectsObject(defaultProject);
+  } else {
+    projects = localStorageProjects;
+  }
 }
 
 export function listProjects() {
-    return projects;
+  return projects;
 }
 
 export function createProject(projectName, projectDescription) {
-    const newProject = project({name: projectName, description: projectDescription});
-    addToProjectsObject(newProject);
-    commit();
+  const newProject = project({
+    name: projectName,
+    description: projectDescription,
+  });
+  addToProjectsObject(newProject);
+  commit();
 }
 
 export function addToProjectsObject(project) {
-    projects[project.id] = project;
-    commit();
-} 
-
-
-export function addToProject(projectId, toDoItem) {
-    projects[projectId].items[toDoItem.id] = toDoItem;
-    commit();
-} 
-
-function commit() {
-    removeFromLocalStorage("projects");
-    saveToLocalStorage("projects", projects);
+  projects[project.id] = project;
+  commit();
 }
 
-/*
+export function addToProject(projectId, toDoItem) {
+  projects[projectId].items[toDoItem.id] = toDoItem;
+  commit();
+}
 
-qui mettiamo tutte le logiche di aggiornamento,
-quando chiamare storage
-funzioni tipo add to do ecc
+function commit() {
+  removeFromLocalStorage("projects");
+  saveToLocalStorage("projects", projects);
+}
 
-l'array dei progetti, che non esporremo
-esporremo solo list projects
-
-*/
-
-//    saveToLocalStorage(name, JSON.stringify{id, name, description, items});
-
-//Project functions (TUTTE DA SISTEMARE)
-
-
+//To Do Items functions, alcune da eliminare, altre da aggirornare
 
 export function removeToDoItem(toDoItemId) {
-    for(const proj in projects){
-        for(const item in projects[proj].items){
-            if(item === toDoItemId){
-                delete projects[proj].items[toDoItemId]
-            }
-        }
+  for (const proj in projects) {
+    for (const item in projects[proj].items) {
+      if (item === toDoItemId) {
+        delete projects[proj].items[toDoItemId];
+      }
     }
-    commit();
+  }
+  commit();
 }
 
 export function getFromProject(project, toDoItem) {
-    console.log(project.items[project.items.indexOf(toDoItem)]);
+  console.log(project.items[project.items.indexOf(toDoItem)]);
 }
 
 export function displayProjectItems(project) {
-    for(const item in project.items) {
-        console.log(project.items[item]);
-    }
+  for (const item in project.items) {
+    console.log(project.items[item]);
+  }
 }
 
-//To Do Items functions
-
-export function markAsDone(item) {
-    item.status = "done";
+export function markAsDone(toDoItemId) {
+  for (const proj in projects) {
+    for (const item in projects[proj].items) {
+      if (item === toDoItemId) {
+        if (projects[proj].items[toDoItemId].status === "closed") {
+          projects[proj].items[toDoItemId].status = "open";
+        } else {
+          projects[proj].items[toDoItemId].status = "closed";
+        }
+      }
+    }
+  }
+  commit();
 }
 
 export function updateField(item, field, newContent) {
-    item[field] = newContent;
+  item[field] = newContent;
 }
 
 export function displayToDo(item) {
-    for(const prop in item) {
-        console.log(prop, ":", item[prop]);
-    }
+  for (const prop in item) {
+    console.log(prop, ":", item[prop]);
+  }
 }

@@ -1,10 +1,11 @@
-import toDo, { markAsDone, updateField, displayToDo } from "./to-do-item.js";
 import {
   addToProject,
   createProject,
   listProjects,
   removeToDoItem,
+  markAsDone,
 } from "./state.js";
+import toDo from "./to-do-item.js";
 
 export function renderToDoItem(item) {
   const toDoDiv = document.createElement("div");
@@ -57,10 +58,12 @@ export function expandToDoItem() {
 
 export function completeToDoItem() {
   //POSSIBLE REFACTOR in a single one for expand, complete, delete
+  //TO DO: come gestiamo la visualizzazione dell'item quando ricarichi la pagina? Forse metterei che se done non viene renderizzato.
   const checkbox = document.querySelectorAll(".check_box");
   checkbox.forEach((item) => {
-    item.addEventListener("click", () => {
-      console.log("checkbox clicked");
+    item.addEventListener("click", (event) => {
+      event.target.parentElement.classList.toggle("done");
+      markAsDone(event.target.id);
     });
   });
 }
@@ -69,8 +72,6 @@ export function deleteToDoItem() {
   const deleteIcon = document.querySelectorAll(".delete");
   deleteIcon.forEach((item) => {
     item.addEventListener("click", (event) => {
-      console.log("delete clicked");
-      console.log(event.target.id);
       removeToDoItem(event.target.id);
       renderAllProjects();
     });

@@ -149,6 +149,10 @@ nav {
   cursor: pointer;
 }
 
+.done {
+  text-decoration-line: line-through;
+}
+
 .to-do-item:hover {
   background-color: var(--surface-hover);
 }
