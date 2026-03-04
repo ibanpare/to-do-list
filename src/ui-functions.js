@@ -43,6 +43,10 @@ export function renderToDoItem(item) {
   toDoDiv.appendChild(deleteIcon);
   toDoDiv.appendChild(checkboxIcon);
   toDoDiv.appendChild(toDoContent);
+
+  if (item.status === "closed") {
+    toDoDiv.classList.toggle("done");
+  }
 }
 
 export function expandToDoItem() {
@@ -58,12 +62,11 @@ export function expandToDoItem() {
 
 export function completeToDoItem() {
   //POSSIBLE REFACTOR in a single one for expand, complete, delete
-  //TO DO: come gestiamo la visualizzazione dell'item quando ricarichi la pagina? Forse metterei che se done non viene renderizzato.
   const checkbox = document.querySelectorAll(".check_box");
   checkbox.forEach((item) => {
     item.addEventListener("click", (event) => {
-      event.target.parentElement.classList.toggle("done");
       markAsDone(event.target.id);
+      renderAllProjects();
     });
   });
 }
@@ -173,10 +176,11 @@ export function clickToRenderAllProjects() {
 
     const mainContainer = document.querySelector(".main-container");
     const mainContainerChildren = Array.from(mainContainer.children);
+    // loop through each project in projects
     for (const child of mainContainerChildren) {
       mainContainer.removeChild(child);
     }
-    // loop through each project in projects
+
     renderAllProjects(projects);
     expandToDoItem();
     completeToDoItem();
