@@ -55,8 +55,6 @@ function commit() {
   saveToLocalStorage("projects", projects);
 }
 
-//To Do Items functions, alcune da eliminare, altre da aggirornare
-
 export function removeToDoItem(toDoItemId) {
   for (const proj in projects) {
     for (const item in projects[proj].items) {
@@ -66,16 +64,6 @@ export function removeToDoItem(toDoItemId) {
     }
   }
   commit();
-}
-
-export function getFromProject(project, toDoItem) {
-  console.log(project.items[project.items.indexOf(toDoItem)]);
-}
-
-export function displayProjectItems(project) {
-  for (const item in project.items) {
-    console.log(project.items[item]);
-  }
 }
 
 export function markAsDone(toDoItemId) {
@@ -93,12 +81,3 @@ export function markAsDone(toDoItemId) {
   commit();
 }
 
-export function updateField(item, field, newContent) {
-  item[field] = newContent;
-}
-
-export function displayToDo(item) {
-  for (const prop in item) {
-    console.log(prop, ":", item[prop]);
-  }
-}

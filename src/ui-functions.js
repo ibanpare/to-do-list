@@ -231,7 +231,7 @@ export function addProject() {
     createProject(ProjectName, ProjectDescription);
 
     formModal.style.display = "none";
-    renderAllProjects();
+    location.reload();
   });
 
   //close modal if user clicks out
