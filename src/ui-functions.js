@@ -1,9 +1,10 @@
 import toDo, { markAsDone, updateField, displayToDo } from "./to-do-item.js";
-import { addToProject, createProject, listProjects } from "./state.js";
+import { addToProject, createProject, listProjects, removeToDoItem } from "./state.js";
 
 export function renderToDoItem(item) {
   const toDoDiv = document.createElement("div");
   toDoDiv.classList.add("to-do-item");
+  toDoDiv.setAttribute("id", item.id);
 
   const toDoTitle = document.createElement("h4");
   toDoTitle.classList.add("to-do-title");
@@ -11,10 +12,12 @@ export function renderToDoItem(item) {
 
   const deleteIcon = document.createElement("span");
   deleteIcon.classList.add("material-symbols-outlined", "delete");
+  deleteIcon.setAttribute("id", item.id);
   deleteIcon.textContent = "delete";
 
   const checkboxIcon = document.createElement("span");
   checkboxIcon.classList.add("material-symbols-outlined", "check_box");
+  checkboxIcon.setAttribute("id", item.id);
   checkboxIcon.textContent = "check_box";
 
   const toDoContent = document.createElement("ul");
@@ -58,10 +61,14 @@ export function completeToDoItem() {
 }
 
 export function deleteToDoItem() {
-  const checkbox = document.querySelectorAll(".delete");
-  checkbox.forEach((item) => {
-    item.addEventListener("click", () => {
+  const deleteIcon = document.querySelectorAll(".delete");
+  deleteIcon.forEach((item) => {
+    item.addEventListener("click", (event) => {
       console.log("delete clicked");
+      console.log(event.target.id);
+      removeToDoItem(event.target.id)
+      //orrendo refresh, da sistemare
+      location.reload();
     });
   });
 }

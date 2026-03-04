@@ -65,9 +65,15 @@ esporremo solo list projects
 
 
 
-export function removeFromProject(project, toDoItem) {
-    toDoItem.projectId = undefined;
-    project.items.splice(project.items.indexOf(toDoItem), 1);
+export function removeToDoItem(toDoItemId) {
+    for(const proj in projects){
+        for(const item in projects[proj].items){
+            if(item === toDoItemId){
+                delete projects[proj].items[toDoItemId]
+            }
+        }
+    }
+    commit();
 }
 
 export function getFromProject(project, toDoItem) {
