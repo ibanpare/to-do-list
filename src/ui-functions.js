@@ -30,10 +30,17 @@ export function renderToDoItem(item) {
   toDoContent.classList.add("to-do-content", "collapsed");
 
   for (const prop in item) {
-    if (prop === "name" || prop === "dueDate") continue;
+    const container = document.createElement("div");
+    container.classList.add("to-do-content-container")
     const toDoContentLine = document.createElement("li");
+    const editIcon = document.createElement("span");
+    editIcon.classList.add("material-symbols-outlined", "edit");
+    editIcon.setAttribute("id", item.id);
+    editIcon.textContent = "edit";
     toDoContentLine.textContent = `${prop}: ${item[prop]}`;
-    toDoContent.appendChild(toDoContentLine);
+    toDoContent.appendChild(container);
+    container.appendChild(toDoContentLine);
+    container.appendChild(editIcon);
   }
 
   const projectContainer = document.getElementById(`${item.projectId}`);
@@ -261,9 +268,11 @@ export function showProject() {
     for (const child of mainContainerChildren) {
       mainContainer.removeChild(child);
     }
-    const selectedProj = document.querySelector("select#show-project option:checked").value
+    const selectedProj = document.querySelector(
+      "select#show-project option:checked",
+    ).value;
     const projObj = projects[selectedProj];
-    
+
     renderProject(projObj);
   });
 }

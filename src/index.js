@@ -1,6 +1,6 @@
-import { renderAllProjects, renderProject, renderToDoItem, expandToDoItem, addToDoItem, addProject, clickToRenderAllProjects, completeToDoItem, showProject } from "./ui-functions.js"; 
+import { renderAllProjects, addToDoItem, addProject, clickToRenderAllProjects, showProject } from "./ui-functions.js"; 
 import "./styles.css";
-import {init, listProjects} from "./state.js";
+import {init} from "./state.js";
 
 init();
 renderAllProjects();
