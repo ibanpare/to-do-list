@@ -241,3 +241,29 @@ export function addProject() {
     }
   };
 }
+
+export function showProject() {
+  const projects = listProjects();
+  const projSelect = document.querySelector("select#show-project");
+  for (const proj in projects) {
+    const projOption = document.createElement("option");
+    projOption.value = projects[proj].id;
+    projOption.innerText = projects[proj].name;
+
+    projSelect.appendChild(projOption);
+  }
+
+  projSelect.addEventListener("change", () => {
+    //poi prende l'input, pulisce screen e chiama render project su quello
+    const mainContainer = document.querySelector(".main-container");
+    const mainContainerChildren = Array.from(mainContainer.children);
+    // loop through each project in projects
+    for (const child of mainContainerChildren) {
+      mainContainer.removeChild(child);
+    }
+    const selectedProj = document.querySelector("select#show-project option:checked").value
+    const projObj = projects[selectedProj];
+    
+    renderProject(projObj);
+  });
+}
