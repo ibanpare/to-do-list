@@ -14,7 +14,7 @@ export function renderToDoItem(item) {
 
   const toDoTitle = document.createElement("h4");
   toDoTitle.classList.add("to-do-title");
-  toDoTitle.textContent = `- ${item.name}, due ${item.dueDate}`;
+  toDoTitle.textContent = `${item.name}, due ${item.dueDate}`;
 
   const deleteIcon = document.createElement("span");
   deleteIcon.classList.add("material-symbols-outlined", "delete");

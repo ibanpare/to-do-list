@@ -157,14 +157,22 @@ nav {
   background-color: var(--surface-hover);
 }
 
+.to-do-content {
+  list-style-type: none;
+  padding: 0;
+}
+
 .to-do-content-container {
   display: flex;
   justify-content: space-between;
 }
 
 .material-symbols-outlined.edit {
-  font-size: 20px;
-  font-weight: 300;
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 200,
+    "GRAD" 0,
+    "opsz" 48;
 }
 
 .to-do-content.collapsed {
