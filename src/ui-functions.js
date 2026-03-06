@@ -4,6 +4,8 @@ import {
   listProjects,
   removeToDoItem,
   markAsDone,
+  findProjectId,
+  updateToDo,
 } from "./state.js";
 import toDo from "./to-do-item.js";
 
@@ -26,21 +28,21 @@ export function renderToDoItem(item) {
   checkboxIcon.setAttribute("id", item.id);
   checkboxIcon.textContent = "check_box";
 
+  const editIcon = document.createElement("span");
+  editIcon.classList.add("material-symbols-outlined", "edit");
+  editIcon.setAttribute("id", item.id);
+  editIcon.textContent = "edit";
+
   const toDoContent = document.createElement("ul");
   toDoContent.classList.add("to-do-content", "collapsed");
 
   for (const prop in item) {
     const container = document.createElement("div");
-    container.classList.add("to-do-content-container")
+    container.classList.add("to-do-content-container");
     const toDoContentLine = document.createElement("li");
-    const editIcon = document.createElement("span");
-    editIcon.classList.add("material-symbols-outlined", "edit");
-    editIcon.setAttribute("id", item.id);
-    editIcon.textContent = "edit";
     toDoContentLine.textContent = `${prop}: ${item[prop]}`;
     toDoContent.appendChild(container);
     container.appendChild(toDoContentLine);
-    container.appendChild(editIcon);
   }
 
   const projectContainer = document.getElementById(`${item.projectId}`);
@@ -49,6 +51,7 @@ export function renderToDoItem(item) {
   toDoDiv.appendChild(toDoTitle);
   toDoDiv.appendChild(deleteIcon);
   toDoDiv.appendChild(checkboxIcon);
+  toDoDiv.appendChild(editIcon);
   toDoDiv.appendChild(toDoContent);
 
   if (item.status === "closed") {
@@ -84,6 +87,53 @@ export function deleteToDoItem() {
     item.addEventListener("click", (event) => {
       removeToDoItem(event.target.id);
       renderAllProjects();
+    });
+  });
+}
+
+export function editToDoItem() {
+  const editIcon = document.querySelectorAll(".edit");
+
+  //TO DO - ripetizioni deliranti, refactor
+
+  editIcon.forEach((item) => {
+    item.addEventListener("click", (event) => {
+
+      const itemDiv = event.target.parentElement;
+      const itemId = event.target.parentElement.id;
+      const projectId = findProjectId(itemId);
+      const projects = listProjects();
+      const item = projects[projectId].items[itemId];
+      const toDoItemContent = itemDiv.querySelector(".to-do-content");
+      //TO DO ADD CHECK IF ALREADY collapsed maybe, dovrebbe farlo toggle ma non va
+      toDoItemContent.classList.remove("collapsed");
+      //oppure mostriamo matita solo quando espande
+
+      //clean up to do item content
+      const toDoItemContentChildren = Array.from(toDoItemContent.children);
+      for (const child of toDoItemContentChildren) {
+        toDoItemContent.removeChild(child);
+      }
+
+      //TO DO anche qui crazy repetitions
+      const editForm = document.createElement("form");
+      const nameLabel = document.createElement("label");
+      nameLabel.setAttribute("for", "to-do-name");
+      const nameInput = document.createElement("input");
+      nameInput.setAttribute("name", "to-do-name");
+      nameInput.setAttribute("type", "text");
+      nameInput.setAttribute("id", "to-do-name");
+      nameInput.setAttribute("value", item.name);
+      nameInput.setAttribute("autofocus","true");
+
+      toDoItemContent.appendChild(editForm);
+      editForm.appendChild(nameLabel);
+      editForm.appendChild(nameInput);
+
+      nameInput.addEventListener("focusout", () => {
+        updateToDo(itemId, "name", nameInput.value);
+      });
+
     });
   });
 }
@@ -173,6 +223,7 @@ export function renderAllProjects() {
   expandToDoItem();
   completeToDoItem();
   deleteToDoItem();
+  editToDoItem();
 }
 
 export function clickToRenderAllProjects() {
@@ -192,6 +243,7 @@ export function clickToRenderAllProjects() {
     expandToDoItem();
     completeToDoItem();
     deleteToDoItem();
+    editToDoItem();
   });
 }
 

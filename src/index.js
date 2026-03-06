@@ -9,3 +9,6 @@ showProject();
 addToDoItem();
 addProject();
 clickToRenderAllProjects();
+
+//TO DO
+//casini vari con gestione expand, non viene chiamato sempre e quindi se fai select proj poi non va, sistemare

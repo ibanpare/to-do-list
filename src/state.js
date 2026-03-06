@@ -81,3 +81,18 @@ export function markAsDone(toDoItemId) {
   commit();
 }
 
+export function findProjectId(toDoItemId) {
+  for (const proj in projects) {
+    for (const item in projects[proj].items) {
+      if (item === toDoItemId) {
+        return projects[proj].id;
+      }
+    }
+  }
+}
+
+export function updateToDo(toDoItemID, property, value) {
+  const projectId = findProjectId(toDoItemID);
+  projects[projectId].items[toDoItemID][property] = value;
+  commit();
+}
