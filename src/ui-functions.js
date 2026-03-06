@@ -99,15 +99,14 @@ export function editToDoItem() {
   editIcon.forEach((item) => {
     item.addEventListener("click", (event) => {
 
+      //figure out where user is editing
       const itemDiv = event.target.parentElement;
       const itemId = event.target.parentElement.id;
       const projectId = findProjectId(itemId);
       const projects = listProjects();
       const item = projects[projectId].items[itemId];
       const toDoItemContent = itemDiv.querySelector(".to-do-content");
-      //TO DO ADD CHECK IF ALREADY collapsed maybe, dovrebbe farlo toggle ma non va
       toDoItemContent.classList.remove("collapsed");
-      //oppure mostriamo matita solo quando espande
 
       //clean up to do item content
       const toDoItemContentChildren = Array.from(toDoItemContent.children);
@@ -116,23 +115,31 @@ export function editToDoItem() {
       }
 
       //TO DO anche qui crazy repetitions
+      //create editForm
       const editForm = document.createElement("form");
-      const nameLabel = document.createElement("label");
-      nameLabel.setAttribute("for", "to-do-name");
-      const nameInput = document.createElement("input");
-      nameInput.setAttribute("name", "to-do-name");
-      nameInput.setAttribute("type", "text");
-      nameInput.setAttribute("id", "to-do-name");
-      nameInput.setAttribute("value", item.name);
-      nameInput.setAttribute("autofocus","true");
+
+      for(const attr in item){
+        console.log(attr);
+
+              const label = document.createElement("label");
+      label.setAttribute("for", `to-do-${attr}`);
+      label.textContent = attr;
+      const input = document.createElement("input");
+      input.setAttribute("name", `to-do-${attr}`);
+      input.setAttribute("type", "text");
+      input.setAttribute("id", `to-do-${attr}`);
+      input.setAttribute("value", item[attr]);
+      input.setAttribute("autofocus","true");
 
       toDoItemContent.appendChild(editForm);
-      editForm.appendChild(nameLabel);
-      editForm.appendChild(nameInput);
+      editForm.appendChild(label);
+      editForm.appendChild(input);
 
-      nameInput.addEventListener("focusout", () => {
-        updateToDo(itemId, "name", nameInput.value);
+      //qui da capire come far finire l'editing
+      input.addEventListener("focusout", () => {
+        updateToDo(itemId, attr, input.value);
       });
+      }
 
     });
   });
