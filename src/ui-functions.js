@@ -98,7 +98,6 @@ export function editToDoItem() {
 
   editIcon.forEach((item) => {
     item.addEventListener("click", (event) => {
-
       //figure out where user is editing
       const itemDiv = event.target.parentElement;
       const itemId = event.target.parentElement.id;
@@ -118,29 +117,28 @@ export function editToDoItem() {
       //create editForm
       const editForm = document.createElement("form");
 
-      for(const attr in item){
+      for (const attr in item) {
         console.log(attr);
 
-              const label = document.createElement("label");
-      label.setAttribute("for", `to-do-${attr}`);
-      label.textContent = attr;
-      const input = document.createElement("input");
-      input.setAttribute("name", `to-do-${attr}`);
-      input.setAttribute("type", "text");
-      input.setAttribute("id", `to-do-${attr}`);
-      input.setAttribute("value", item[attr]);
-      input.setAttribute("autofocus","true");
+        const label = document.createElement("label");
+        label.setAttribute("for", `to-do-${attr}`);
+        label.textContent = attr;
+        const input = document.createElement("input");
+        input.setAttribute("name", `to-do-${attr}`);
+        input.setAttribute("type", "text");
+        input.setAttribute("id", `to-do-${attr}`);
+        input.setAttribute("value", item[attr]);
+        input.setAttribute("autofocus", "true");
 
-      toDoItemContent.appendChild(editForm);
-      editForm.appendChild(label);
-      editForm.appendChild(input);
+        toDoItemContent.appendChild(editForm);
+        editForm.appendChild(label);
+        editForm.appendChild(input);
 
-      //qui da capire come far finire l'editing
-      input.addEventListener("focusout", () => {
-        updateToDo(itemId, attr, input.value);
-      });
+        //qui da capire come far finire l'editing
+        input.addEventListener("focusout", () => {
+          updateToDo(itemId, attr, input.value);
+        });
       }
-
     });
   });
 }
