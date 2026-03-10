@@ -113,13 +113,11 @@ export function editToDoItem() {
         toDoItemContent.removeChild(child);
       }
 
-      //TO DO anche qui crazy repetitions
       //create editForm
       const editForm = document.createElement("form");
 
       for (const attr in item) {
-        console.log(attr);
-
+        //TO DO - differenziare field, alcuni sono select
         const label = document.createElement("label");
         label.setAttribute("for", `to-do-${attr}`);
         label.textContent = attr;
@@ -134,9 +132,14 @@ export function editToDoItem() {
         editForm.appendChild(label);
         editForm.appendChild(input);
 
-        //qui da capire come far finire l'editing
         input.addEventListener("focusout", () => {
           updateToDo(itemId, attr, input.value);
+        });
+
+        input.addEventListener("keydown", (event) => {
+          if (event.key === "Enter") {
+            renderAllProjects();
+          }
         });
       }
     });
