@@ -117,30 +117,69 @@ export function editToDoItem() {
       const editForm = document.createElement("form");
 
       for (const attr in item) {
-        //TO DO - differenziare field, alcuni sono select
         const label = document.createElement("label");
         label.setAttribute("for", `to-do-${attr}`);
         label.textContent = attr;
-        const input = document.createElement("input");
-        input.setAttribute("name", `to-do-${attr}`);
-        input.setAttribute("type", "text");
-        input.setAttribute("id", `to-do-${attr}`);
-        input.setAttribute("value", item[attr]);
-        input.setAttribute("autofocus", "true");
+        if (attr === "priority") {
+          const select = document.createElement("select");
+          select.setAttribute("name", `to-do-${attr}`);
+          select.setAttribute("type", "text");
+          select.setAttribute("id", `to-do-${attr}`);
+          select.setAttribute("autofocus", "true");
+          const options = ["none", "low", "medium", "high", "urgent"];
+          for (const option of options) {
+            const priorityOption = document.createElement("option");
+            priorityOption.setAttribute("value", option);
+            if (item.priority === option) {
+              priorityOption.setAttribute("selected", true);
+            }
+            priorityOption.textContent = option;
 
-        toDoItemContent.appendChild(editForm);
-        editForm.appendChild(label);
-        editForm.appendChild(input);
-
-        input.addEventListener("focusout", () => {
-          updateToDo(itemId, attr, input.value);
-        });
-
-        input.addEventListener("keydown", (event) => {
-          if (event.key === "Enter") {
-            renderAllProjects();
+            select.appendChild(priorityOption);
           }
-        });
+          select.addEventListener("focusout", () => {
+            updateToDo(itemId, attr, select.value);
+          });
+
+          select.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+              renderAllProjects();
+            }
+          });
+          /*
+                        <option value="none" selected>None</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="urgent">Urgent</option>
+
+          */
+
+          toDoItemContent.appendChild(editForm);
+          editForm.appendChild(label);
+          editForm.appendChild(select);
+        } else {
+          const input = document.createElement("input");
+          input.setAttribute("name", `to-do-${attr}`);
+          input.setAttribute("type", "text");
+          input.setAttribute("id", `to-do-${attr}`);
+          input.setAttribute("value", item[attr]);
+          input.setAttribute("autofocus", "true");
+
+          toDoItemContent.appendChild(editForm);
+          editForm.appendChild(label);
+          editForm.appendChild(input);
+
+          input.addEventListener("focusout", () => {
+            updateToDo(itemId, attr, input.value);
+          });
+
+          input.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+              renderAllProjects();
+            }
+          });
+        }
       }
     });
   });
