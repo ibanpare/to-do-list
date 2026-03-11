@@ -9,6 +9,13 @@ import {
 } from "./state.js";
 import toDo from "./to-do-item.js";
 
+/*
+TO DO
+Separate render.js from events.js
+Implement event delegation in events.js
+I.e. listen for events on container and do something depending on target class/id/tagname
+*/
+
 export function renderToDoItem(item) {
   const toDoDiv = document.createElement("div");
   toDoDiv.classList.add("to-do-item");
@@ -337,7 +344,7 @@ export function addProject() {
     createProject(ProjectName, ProjectDescription);
 
     formModal.style.display = "none";
-    location.reload();
+    renderAllProjects();
   });
 
   //close modal if user clicks out
