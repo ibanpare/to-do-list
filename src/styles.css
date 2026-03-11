@@ -103,6 +103,10 @@ h6 {
   --border-color: #e7e5e4;
   --danger-color: #dc2626;
   --success-color: #16a34a;
+  --priority-low-bg: #dcfce7;
+  --priority-medium-bg: #fef3c7;
+  --priority-high-bg: #fed7aa;
+  --priority-urgent-bg: #fee2e2;
 }
 
 body {
@@ -147,6 +151,43 @@ nav {
 
 .to-do-item {
   cursor: pointer;
+  padding: 0.3em;
+}
+
+.none:hover {
+  border-left: 4px solid var(--surface-hover);
+}
+
+.low {
+  background-color: var(--priority-low-bg);
+}
+
+.low:hover {
+  border-left: 4px solid var(--priority-low-bg);
+}
+
+.medium {
+  background-color: var(--priority-medium-bg);
+}
+
+.medium:hover {
+  border-left: 4px solid var(--priority-medium-bg);
+}
+
+.high {
+  background-color: var(--priority-high-bg);
+}
+
+.high:hover {
+  border-left: 4px solid var(--priority-high-bg);
+}
+
+.urgent {
+  background-color: var(--priority-urgent-bg);
+}
+
+.urgent:hover {
+  border-left: 4px solid var(--priority-urgent-bg);
 }
 
 .done {
@@ -155,6 +196,7 @@ nav {
 
 .to-do-item:hover {
   background-color: var(--surface-hover);
+  transform: translateY(-1px);
 }
 
 .to-do-content {

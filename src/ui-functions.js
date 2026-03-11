@@ -64,6 +64,18 @@ export function renderToDoItem(item) {
   if (item.status === "closed") {
     toDoDiv.classList.toggle("done");
   }
+
+  if (item.priority === "low") {
+    toDoDiv.classList.add("low");
+  } else if (item.priority === "medium") {
+    toDoDiv.classList.add("medium");
+  } else if (item.priority === "high") {
+    toDoDiv.classList.add("high");
+  } else if (item.priority === "urgent") {
+    toDoDiv.classList.add("urgent");
+  } else {
+    toDoDiv.classList.add("none");
+  }
 }
 
 export function expandToDoItem() {
