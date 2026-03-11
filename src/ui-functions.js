@@ -25,9 +25,16 @@ export function renderToDoItem(item) {
   toDoDiv.classList.add("to-do-item");
   toDoDiv.setAttribute("id", item.id);
 
+  const toDoTitleDiv = document.createElement("div");
+  toDoTitleDiv.classList.add("to-do-title-container");
+
   const toDoTitle = document.createElement("h4");
   toDoTitle.classList.add("to-do-title");
-  toDoTitle.textContent = `${item.name}, due ${dueDate}, ${timeDistance} from now`;
+  toDoTitle.textContent = `${item.name}`;
+
+  const toDoSubtitle = document.createElement("p");
+  toDoSubtitle.classList.add("to-do-subtitle");
+  toDoSubtitle.textContent = `due on ${dueDate} • ${timeDistance} from now`;
 
   const deleteIcon = document.createElement("span");
   deleteIcon.classList.add("material-symbols-outlined", "delete");
@@ -48,22 +55,26 @@ export function renderToDoItem(item) {
   toDoContent.classList.add("to-do-content", "collapsed");
 
   for (const prop in item) {
-    const container = document.createElement("div");
-    container.classList.add("to-do-content-container");
-    const toDoContentLine = document.createElement("li");
-    toDoContentLine.textContent = `${prop}: ${item[prop]}`;
-    toDoContent.appendChild(container);
-    container.appendChild(toDoContentLine);
+    if (prop === "description" || prop === "notes" || prop === "priority") {
+      const container = document.createElement("div");
+      container.classList.add("to-do-content-container");
+      const toDoContentLine = document.createElement("li");
+      toDoContentLine.textContent = `${prop}: ${item[prop]}`;
+      toDoContent.appendChild(container);
+      container.appendChild(toDoContentLine);
+    }
   }
 
   const projectContainer = document.getElementById(`${item.projectId}`);
 
   projectContainer.appendChild(toDoDiv);
-  toDoDiv.appendChild(toDoTitle);
+  toDoDiv.appendChild(toDoTitleDiv);
+  toDoTitleDiv.appendChild(toDoTitle);
+  toDoTitleDiv.appendChild(toDoSubtitle);
+  toDoDiv.appendChild(toDoContent);
   toDoDiv.appendChild(deleteIcon);
   toDoDiv.appendChild(checkboxIcon);
   toDoDiv.appendChild(editIcon);
-  toDoDiv.appendChild(toDoContent);
 
   if (item.status === "closed") {
     toDoDiv.classList.toggle("done");
@@ -83,11 +94,10 @@ export function renderToDoItem(item) {
 }
 
 export function expandToDoItem() {
-  const toDoTitle = document.querySelectorAll(".to-do-title");
-  toDoTitle.forEach((item) =>
-    item.addEventListener("click", function (event) {
-      const toDoItemDiv = event.target.parentElement;
-      const toDoItemContent = toDoItemDiv.querySelector(".to-do-content");
+  const toDoItemDiv = document.querySelectorAll(".to-do-item");
+  toDoItemDiv.forEach((item) =>
+    item.addEventListener("click", function () {
+      const toDoItemContent = item.querySelector(".to-do-content");
       toDoItemContent.classList.toggle("collapsed");
     }),
   );

@@ -149,6 +149,18 @@ nav {
   padding: 0.6em;
 }
 
+.to-do-subtitle {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 0.5em;
+}
+
+.to-do-content {
+  margin: 1.25em 0 1em 0;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
 .to-do-item {
   cursor: pointer;
   padding: 0.3em;
@@ -207,6 +219,10 @@ nav {
 .to-do-content-container {
   display: flex;
   justify-content: space-between;
+}
+
+.to-do-content-container li::first-letter {
+  text-transform: capitalize;
 }
 
 .to-do-content.collapsed {
