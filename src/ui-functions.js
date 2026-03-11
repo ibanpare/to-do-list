@@ -7,6 +7,7 @@ import {
   findProjectId,
   updateToDo,
 } from "./state.js";
+import { lightFormat, formatDistance } from "date-fns";
 import toDo from "./to-do-item.js";
 
 /*
@@ -17,13 +18,16 @@ I.e. listen for events on container and do something depending on target class/i
 */
 
 export function renderToDoItem(item) {
+  const dueDate = lightFormat(item.dueDate, "dd-MM-yyyy");
+  const timeDistance = formatDistance(Date.now(), item.dueDate);
+
   const toDoDiv = document.createElement("div");
   toDoDiv.classList.add("to-do-item");
   toDoDiv.setAttribute("id", item.id);
 
   const toDoTitle = document.createElement("h4");
   toDoTitle.classList.add("to-do-title");
-  toDoTitle.textContent = `${item.name}, due ${item.dueDate}`;
+  toDoTitle.textContent = `${item.name}, due ${dueDate}, ${timeDistance} from now`;
 
   const deleteIcon = document.createElement("span");
   deleteIcon.classList.add("material-symbols-outlined", "delete");
@@ -165,14 +169,6 @@ export function editToDoItem() {
               renderAllProjects();
             }
           });
-          /*
-                        <option value="none" selected>None</option>
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-              <option value="urgent">Urgent</option>
-
-          */
 
           toDoItemContent.appendChild(editForm);
           editForm.appendChild(label);
