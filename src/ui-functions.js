@@ -211,14 +211,6 @@ export function editToDoItem() {
 }
 
 export function addToDoItem() {
-  /* TO DO
-
-    per ora dovrò sempre chiamare renderToDoItem dopo averlo creato
-    poi in teoria se submit fa refresh page siamo a posto
-
-    Ho dubbi su come spacchettare, sicuramnete c'è troppa roba, intanto faccio questo monster e poi vediamo
-    */
-
   const addBtn = document.querySelector(".add-to-do");
   const formModal = document.querySelector(".to-do-item-form-modal");
   const closeBtn = formModal.querySelector(".close");
@@ -240,6 +232,14 @@ export function addToDoItem() {
   });
   closeBtn.addEventListener("click", () => {
     formModal.style.display = "none";
+  });
+
+  //close modal if user clicks out
+  formModal.addEventListener("click", (event) => {
+    console.log(event.target);
+    if (event.target.className === "to-do-item-form-modal") {
+      formModal.style.display = "none";
+    }
   });
 
   const submitBtn = formModal.querySelector("button[type='submit']");
@@ -273,13 +273,6 @@ export function addToDoItem() {
     formModal.style.display = "none";
     renderAllProjects();
   });
-
-  //close modal if user clicks out
-  window.onclick = (event) => {
-    if (event.target == formModal) {
-      formModal.style.display = "none";
-    }
-  };
 }
 
 export function renderAllProjects() {
@@ -366,11 +359,12 @@ export function addProject() {
   });
 
   //close modal if user clicks out
-  window.onclick = (event) => {
-    if (event.target == formModal) {
+  formModal.addEventListener("click", (event) => {
+    console.log(event.target);
+    if (event.target.className === "add-project-form-modal") {
       formModal.style.display = "none";
     }
-  };
+  });
 }
 
 export function showProject() {
