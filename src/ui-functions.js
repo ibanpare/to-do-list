@@ -200,12 +200,12 @@ export function createProjectSelectOptions() {
   }
 }
 
-export function closeModal() {
+export function closeToDoModal() {
   const formModal = document.querySelector(".to-do-item-form-modal");
   formModal.style.display = "none";
 }
 
-export function showModal() {
+export function showToDoModal() {
   const formModal = document.querySelector(".to-do-item-form-modal");
   formModal.style.display = "block";
 
@@ -237,7 +237,7 @@ export function addToDoItem() {
 
   addToProject(projectId, myToDo);
 
-  closeModal();
+  closeToDoModal();
   renderAllProjects();
 }
 
@@ -274,39 +274,22 @@ export function renderProject(project) {
   }
 }
 
-export function addProject() {
-  const addBtn = document.querySelector(".add-project");
+export function handleProjectModal(action) {
   const formModal = document.querySelector(".add-project-form-modal");
-  const closeBtn = formModal.querySelector(".close");
-  addBtn.addEventListener("click", () => {
-    formModal.style.display = "block";
-  });
-  closeBtn.addEventListener("click", () => {
-    formModal.style.display = "none";
-  });
+  if (action === "show") formModal.style.display = "block";
+  else if (action === "close") formModal.style.display = "none";
+}
 
-  const submitBtn = formModal.querySelector("button[type='submit']");
-  submitBtn.addEventListener("click", () => {
-    console.log("submitted");
+export function addProject() {
+  const ProjectName = document.querySelector("input#project-name").value;
+  const ProjectDescription = document.querySelector(
+    "input#project-description",
+  ).value;
 
-    const ProjectName = document.querySelector("input#project-name").value;
-    const ProjectDescription = document.querySelector(
-      "input#project-description",
-    ).value;
+  createProject(ProjectName, ProjectDescription);
 
-    createProject(ProjectName, ProjectDescription);
-
-    formModal.style.display = "none";
-    renderAllProjects();
-  });
-
-  //close modal if user clicks out
-  formModal.addEventListener("click", (event) => {
-    console.log(event.target);
-    if (event.target.className === "add-project-form-modal") {
-      formModal.style.display = "none";
-    }
-  });
+  handleProjectModal("close");
+  renderAllProjects();
 }
 
 export function showProject() {

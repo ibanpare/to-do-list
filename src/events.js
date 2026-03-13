@@ -5,8 +5,10 @@ import {
   editToDoItem,
   renderAllProjects,
   addToDoItem,
-  closeModal,
-  showModal,
+  closeToDoModal,
+  showToDoModal,
+  handleProjectModal,
+  addProject,
 } from "./ui-functions.js";
 
 export function clickHandler() {
@@ -18,16 +20,11 @@ export function clickHandler() {
     ) {
       console.log("title or subtitle");
       expandToDoItem(itemId);
-    } else if (event.target.className === "material-symbols-outlined delete") {
+    } else if (event.target.matches(".delete")) {
       deleteToDoItem(itemId);
-      console.log("delete");
-    } else if (
-      event.target.className === "material-symbols-outlined check_box"
-    ) {
-      console.log("complete");
+    } else if (event.target.matches(".check_box")) {
       completeToDoItem(itemId);
-    } else if (event.target.className === "material-symbols-outlined edit") {
-      console.log("edit");
+    } else if (event.target.matches(".edit")) {
       editToDoItem(itemId);
     } else if (event.target.matches(".see-all-btn")) {
       const mainContainer = document.querySelector(".main-container");
@@ -36,19 +33,25 @@ export function clickHandler() {
       for (const child of mainContainerChildren) {
         mainContainer.removeChild(child);
       }
-
-      //ADD PROJECT
-
       renderAllProjects();
     } else if (event.target.matches(".add-to-do")) {
-      showModal();
+      showToDoModal();
     } else if (
       event.target.matches(".close") ||
       event.target.matches(".to-do-item-form-modal")
     ) {
-      closeModal();
+      closeToDoModal();
     } else if (event.target.matches("#to-do-item-form-btn")) {
       addToDoItem();
+    } else if (event.target.matches(".add-project")) {
+      handleProjectModal("show");
+    } else if (
+      event.target.matches(".close-project-modal") ||
+      event.target.matches(".add-project-form-modal")
+    ) {
+      handleProjectModal("close");
+    } else if (event.target.matches("#project-form-btn")) {
+      addProject();
     }
   });
 }
