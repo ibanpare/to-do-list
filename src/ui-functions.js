@@ -263,23 +263,7 @@ export function renderAllProjects() {
   for (const proj in projects) {
     renderProject(projects[proj]);
   }
-}
-
-export function clickToRenderAllProjects() {
-  const projects = listProjects();
-  const seeAllBtn = document.querySelector(".see-all-btn");
-  seeAllBtn.addEventListener("click", () => {
-    //clean up screen
-
-    const mainContainer = document.querySelector(".main-container");
-    const mainContainerChildren = Array.from(mainContainer.children);
-    // loop through each project in projects
-    for (const child of mainContainerChildren) {
-      mainContainer.removeChild(child);
-    }
-
-    renderAllProjects(projects);
-  });
+  showProject();
 }
 
 export function renderProject(project) {
@@ -338,8 +322,16 @@ export function addProject() {
 }
 
 export function showProject() {
+  //TO DO fix bugs duplicazione
+  //TO DO move listener to events
   const projects = listProjects();
   const projSelect = document.querySelector("select#show-project");
+
+  //clean options first
+  for (const child of projSelect) {
+    projSelect.removeChild(child);
+  }
+
   for (const proj in projects) {
     const projOption = document.createElement("option");
     projOption.value = projects[proj].id;
