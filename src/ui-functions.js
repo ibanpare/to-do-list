@@ -188,69 +188,57 @@ export function editToDoItem() {
   });
 }
 
-export function addToDoItem() {
-  const addBtn = document.querySelector(".add-to-do");
-  const formModal = document.querySelector(".to-do-item-form-modal");
-  const closeBtn = formModal.querySelector(".close");
+export function createProjectSelectOptions() {
+  const projects = listProjects();
   const projectSelect = document.querySelector("select#project-select");
 
-  (function createProjectSelectOptions() {
-    const projects = listProjects();
+  for (const proj in projects) {
+    const projectOption = document.createElement("option");
+    projectOption.value = proj;
+    projectOption.textContent = projects[proj].name;
+    projectSelect.appendChild(projectOption);
+  }
+}
 
-    for (const proj in projects) {
-      const projectOption = document.createElement("option");
-      projectOption.value = proj;
-      projectOption.textContent = projects[proj].name;
-      projectSelect.appendChild(projectOption);
-    }
-  })();
+export function closeModal() {
+  const formModal = document.querySelector(".to-do-item-form-modal");
+  formModal.style.display = "none";
+}
 
-  addBtn.addEventListener("click", () => {
-    formModal.style.display = "block";
-  });
-  closeBtn.addEventListener("click", () => {
-    formModal.style.display = "none";
-  });
+export function showModal() {
+  const formModal = document.querySelector(".to-do-item-form-modal");
+  formModal.style.display = "block";
 
-  //close modal if user clicks out
-  formModal.addEventListener("click", (event) => {
-    console.log(event.target);
-    if (event.target.className === "to-do-item-form-modal") {
-      formModal.style.display = "none";
-    }
-  });
+  createProjectSelectOptions();
+}
 
-  const submitBtn = formModal.querySelector("button[type='submit']");
-  submitBtn.addEventListener("click", () => {
-    console.log("submitted");
+export function addToDoItem() {
+  const toDoName = document.querySelector("input#to-do-name").value;
+  const toDoDescription = document.querySelector(
+    "input#to-do-description",
+  ).value;
+  const toDoPriority = document.querySelector("select#to-do-priority").value;
+  const toDoDueDate = document.querySelector("input#to-do-dueDate").value;
+  const toDoNotes = document.querySelector("textarea#to-do-notes").value;
+  const projectId = document.querySelector(
+    "#project-select option:checked",
+  ).value;
 
-    const toDoName = document.querySelector("input#to-do-name").value;
-    const toDoDescription = document.querySelector(
-      "input#to-do-description",
-    ).value;
-    const toDoPriority = document.querySelector("select#to-do-priority").value;
-    const toDoDueDate = document.querySelector("input#to-do-dueDate").value;
-    const toDoNotes = document.querySelector("textarea#to-do-notes").value;
-    const projectId = document.querySelector(
-      "#project-select option:checked",
-    ).value;
+  const myToDo = toDo(
+    {
+      name: toDoName,
+      description: toDoDescription,
+      priority: toDoPriority,
+      dueDate: toDoDueDate,
+      notes: toDoNotes,
+    },
+    projectId,
+  );
 
-    const myToDo = toDo(
-      {
-        name: toDoName,
-        description: toDoDescription,
-        priority: toDoPriority,
-        dueDate: toDoDueDate,
-        notes: toDoNotes,
-      },
-      projectId,
-    );
+  addToProject(projectId, myToDo);
 
-    addToProject(projectId, myToDo);
-
-    formModal.style.display = "none";
-    renderAllProjects();
-  });
+  closeModal();
+  renderAllProjects();
 }
 
 export function renderAllProjects() {

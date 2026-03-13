@@ -4,6 +4,9 @@ import {
   completeToDoItem,
   editToDoItem,
   renderAllProjects,
+  addToDoItem,
+  closeModal,
+  showModal,
 } from "./ui-functions.js";
 
 export function clickHandler() {
@@ -34,7 +37,18 @@ export function clickHandler() {
         mainContainer.removeChild(child);
       }
 
+      //ADD PROJECT
+
       renderAllProjects();
+    } else if (event.target.matches(".add-to-do")) {
+      showModal();
+    } else if (
+      event.target.matches(".close") ||
+      event.target.matches(".to-do-item-form-modal")
+    ) {
+      closeModal();
+    } else if (event.target.matches("#to-do-item-form-btn")) {
+      addToDoItem();
     }
   });
 }

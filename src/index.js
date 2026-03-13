@@ -10,6 +10,3 @@ import "./events.js";
 
 init();
 renderAllProjects();
-
-addToDoItem();
-addProject();
