@@ -10,13 +10,6 @@ import {
 import { lightFormat, formatDistance } from "date-fns";
 import toDo from "./to-do-item.js";
 
-/*
-TO DO
-Separate render.js from events.js
-Implement event delegation in events.js
-I.e. listen for events on container and do something depending on target class/id/tagname
-*/
-
 export function renderToDoItem(item) {
   const dueDate = lightFormat(item.dueDate, "dd-MM-yyyy");
   const timeDistance = formatDistance(Date.now(), item.dueDate);
@@ -38,17 +31,17 @@ export function renderToDoItem(item) {
 
   const deleteIcon = document.createElement("span");
   deleteIcon.classList.add("material-symbols-outlined", "delete");
-  deleteIcon.setAttribute("id", item.id);
+  deleteIcon.setAttribute("data-id", item.id);
   deleteIcon.textContent = "delete";
 
   const checkboxIcon = document.createElement("span");
   checkboxIcon.classList.add("material-symbols-outlined", "check_box");
-  checkboxIcon.setAttribute("id", item.id);
+  checkboxIcon.setAttribute("data-id", item.id);
   checkboxIcon.textContent = "check_box";
 
   const editIcon = document.createElement("span");
   editIcon.classList.add("material-symbols-outlined", "edit");
-  editIcon.setAttribute("id", item.id);
+  editIcon.setAttribute("data-id", item.id);
   editIcon.textContent = "edit";
 
   const toDoContent = document.createElement("ul");
@@ -94,40 +87,26 @@ export function renderToDoItem(item) {
 }
 
 export function expandToDoItem() {
-  const toDoItemDiv = document.querySelectorAll(".to-do-item");
-  toDoItemDiv.forEach((item) =>
-    item.addEventListener("click", function () {
-      const toDoItemContent = item.querySelector(".to-do-content");
-      toDoItemContent.classList.toggle("collapsed");
-    }),
-  );
+  console.log("I'd like to expand");
 }
 
-export function completeToDoItem() {
-  //POSSIBLE REFACTOR in a single one for expand, complete, delete
-  const checkbox = document.querySelectorAll(".check_box");
-  checkbox.forEach((item) => {
-    item.addEventListener("click", (event) => {
-      markAsDone(event.target.id);
-      renderAllProjects();
-    });
-  });
+export function completeToDoItem(itemId) {
+  markAsDone(itemId);
+  renderAllProjects();
 }
 
-export function deleteToDoItem() {
-  const deleteIcon = document.querySelectorAll(".delete");
-  deleteIcon.forEach((item) => {
-    item.addEventListener("click", (event) => {
-      removeToDoItem(event.target.id);
-      renderAllProjects();
-    });
-  });
+export function deleteToDoItem(itemId) {
+  removeToDoItem(itemId);
+  renderAllProjects();
 }
 
 export function editToDoItem() {
+  console.log("edit");
   const editIcon = document.querySelectorAll(".edit");
 
   //TO DO - ripetizioni deliranti, refactor
+  // NON VA UN CAZZO, cioè non si espande
+  // e il form è troppo lungo
 
   editIcon.forEach((item) => {
     item.addEventListener("click", (event) => {
@@ -137,8 +116,7 @@ export function editToDoItem() {
       const projectId = findProjectId(itemId);
       const projects = listProjects();
       const item = projects[projectId].items[itemId];
-      const toDoItemContent = itemDiv.querySelector(".to-do-content");
-      toDoItemContent.classList.remove("collapsed");
+      const toDoItemContent = itemDiv.querySelector("ul");
 
       //clean up to do item content
       const toDoItemContentChildren = Array.from(toDoItemContent.children);
@@ -285,10 +263,6 @@ export function renderAllProjects() {
   for (const proj in projects) {
     renderProject(projects[proj]);
   }
-  expandToDoItem();
-  completeToDoItem();
-  deleteToDoItem();
-  editToDoItem();
 }
 
 export function clickToRenderAllProjects() {
@@ -305,10 +279,6 @@ export function clickToRenderAllProjects() {
     }
 
     renderAllProjects(projects);
-    expandToDoItem();
-    completeToDoItem();
-    deleteToDoItem();
-    editToDoItem();
   });
 }
 
