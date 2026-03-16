@@ -9,6 +9,7 @@ import {
   showToDoModal,
   handleProjectModal,
   addProject,
+  showProject,
 } from "./ui-functions.js";
 
 export function clickHandler() {
@@ -53,6 +54,9 @@ export function clickHandler() {
     } else if (event.target.matches("#project-form-btn")) {
       addProject();
     }
+  });
+  document.addEventListener("change", (event) => {
+    if (event.target.matches("select#show-project")) showProject();
   });
 }
 

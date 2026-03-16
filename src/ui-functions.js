@@ -244,7 +244,16 @@ export function renderAllProjects() {
   for (const proj in projects) {
     renderProject(projects[proj]);
   }
-  showProject();
+  const projSelect = document.querySelector("select#show-project");
+  projSelect.replaceChildren();
+
+  for (const proj in projects) {
+    const projOption = document.createElement("option");
+    projOption.value = projects[proj].id;
+    projOption.innerText = projects[proj].name;
+
+    projSelect.appendChild(projOption);
+  }
 }
 
 export function renderProject(project) {
@@ -286,28 +295,13 @@ export function addProject() {
 }
 
 export function showProject() {
-  //TO DO move listener to events
   const projects = listProjects();
-  const projSelect = document.querySelector("select#show-project");
-  projSelect.replaceChildren();
+  const mainContainer = document.querySelector(".main-container");
+  mainContainer.replaceChildren();
+  const selectedProj = document.querySelector(
+    "select#show-project option:checked",
+  ).value;
+  const projObj = projects[selectedProj];
 
-  for (const proj in projects) {
-    const projOption = document.createElement("option");
-    projOption.value = projects[proj].id;
-    projOption.innerText = projects[proj].name;
-
-    projSelect.appendChild(projOption);
-  }
-
-  projSelect.addEventListener("change", () => {
-    //poi prende l'input, pulisce screen e chiama render project su quello
-    const mainContainer = document.querySelector(".main-container");
-    mainContainer.replaceChildren();
-    const selectedProj = document.querySelector(
-      "select#show-project option:checked",
-    ).value;
-    const projObj = projects[selectedProj];
-
-    renderProject(projObj);
-  });
+  renderProject(projObj);
 }
