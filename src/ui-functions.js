@@ -118,11 +118,7 @@ export function editToDoItem() {
       const item = projects[projectId].items[itemId];
       const toDoItemContent = itemDiv.querySelector("ul");
 
-      //clean up to do item content
-      const toDoItemContentChildren = Array.from(toDoItemContent.children);
-      for (const child of toDoItemContentChildren) {
-        toDoItemContent.removeChild(child);
-      }
+      toDoItemContent.replaceChildren();
 
       //create editForm
       const editForm = document.createElement("form");
@@ -244,10 +240,7 @@ export function addToDoItem() {
 export function renderAllProjects() {
   const projects = listProjects();
   const mainContainer = document.querySelector(".main-container");
-  const mainContainerChildren = Array.from(mainContainer.children);
-  for (const child of mainContainerChildren) {
-    mainContainer.removeChild(child);
-  }
+  mainContainer.replaceChildren();
   for (const proj in projects) {
     renderProject(projects[proj]);
   }
@@ -293,15 +286,10 @@ export function addProject() {
 }
 
 export function showProject() {
-  //TO DO fix bugs duplicazione
   //TO DO move listener to events
   const projects = listProjects();
   const projSelect = document.querySelector("select#show-project");
-
-  //clean options first
-  for (const child of projSelect) {
-    projSelect.removeChild(child);
-  }
+  projSelect.replaceChildren();
 
   for (const proj in projects) {
     const projOption = document.createElement("option");
@@ -314,11 +302,7 @@ export function showProject() {
   projSelect.addEventListener("change", () => {
     //poi prende l'input, pulisce screen e chiama render project su quello
     const mainContainer = document.querySelector(".main-container");
-    const mainContainerChildren = Array.from(mainContainer.children);
-    // loop through each project in projects
-    for (const child of mainContainerChildren) {
-      mainContainer.removeChild(child);
-    }
+    mainContainer.replaceChildren();
     const selectedProj = document.querySelector(
       "select#show-project option:checked",
     ).value;
