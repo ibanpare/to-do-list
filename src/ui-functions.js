@@ -86,8 +86,12 @@ export function renderToDoItem(item) {
   }
 }
 
-export function expandToDoItem() {
-  console.log("I'd like to expand");
+export function expandToDoItem(itemId) {
+  const toDoItemDiv = document.getElementById(itemId);
+  const content = toDoItemDiv.querySelector("ul");
+  content.classList.toggle("collapsed");
+  //TO DO forse potrei mettere una icona tipo V come i promemoria di iOS, sulla destra
+  //forse potrei mettere della logica che se è già expanded lo lascia expanded, per l'edit
 }
 
 export function completeToDoItem(itemId) {

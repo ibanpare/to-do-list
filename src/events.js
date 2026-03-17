@@ -19,8 +19,8 @@ export function clickHandler() {
       event.target.matches(".to-do-title") ||
       event.target.matches(".to-do-subtitle")
     ) {
-      console.log("title or subtitle");
-      expandToDoItem(itemId);
+      const nestedItemId = event.target.parentElement.parentElement.id;
+      expandToDoItem(nestedItemId);
     } else if (event.target.matches(".delete")) {
       deleteToDoItem(itemId);
     } else if (event.target.matches(".check_box")) {
