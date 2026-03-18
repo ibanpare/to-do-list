@@ -10,7 +10,9 @@ import {
   handleProjectModal,
   addProject,
   showProject,
+  closeToDoItem,
 } from "./ui-functions.js";
+import { updateToDo } from "./state.js";
 
 export function clickHandler() {
   document.addEventListener("click", (event) => {
@@ -57,6 +59,27 @@ export function clickHandler() {
   });
   document.addEventListener("change", (event) => {
     if (event.target.matches("select#show-project")) showProject();
+    if (event.target.matches("#priority")) {
+      updateToDo(
+        event.target.parentElement.parentElement.parentElement.id,
+        event.target.id,
+        event.target.value,
+      );
+    }
+  });
+  document.addEventListener("focusout", (event) => {
+    if (
+      event.target.matches("#name") ||
+      event.target.matches("#description") ||
+      event.target.matches("#dueDate") ||
+      event.target.matches("#notes")
+    ) {
+      updateToDo(
+        event.target.parentElement.parentElement.parentElement.id,
+        event.target.id,
+        event.target.value,
+      );
+    }
   });
 }
 

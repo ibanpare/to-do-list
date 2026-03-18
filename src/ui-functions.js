@@ -5,7 +5,6 @@ import {
   removeToDoItem,
   markAsDone,
   findProjectId,
-  updateToDo,
 } from "./state.js";
 import { lightFormat, formatDistance } from "date-fns";
 import toDo from "./to-do-item.js";
@@ -89,9 +88,19 @@ export function renderToDoItem(item) {
 export function expandToDoItem(itemId) {
   const toDoItemDiv = document.getElementById(itemId);
   const content = toDoItemDiv.querySelector("ul");
-  content.classList.toggle("collapsed");
-  //TO DO forse potrei mettere una icona tipo V come i promemoria di iOS, sulla destra
-  //forse potrei mettere della logica che se è già expanded lo lascia expanded, per l'edit
+
+  if (content.classList.contains("collapsed")) {
+    content.classList.remove("collapsed");
+  }
+}
+
+export function closeToDoItem(itemId) {
+  const toDoItemDiv = document.getElementById(itemId);
+  const content = toDoItemDiv.querySelector("ul");
+
+  if (!content.classList.contains("collapsed")) {
+    content.classList.add("collapsed");
+  }
 }
 
 export function completeToDoItem(itemId) {
@@ -104,88 +113,83 @@ export function deleteToDoItem(itemId) {
   renderAllProjects();
 }
 
-export function editToDoItem() {
-  console.log("edit");
-  const editIcon = document.querySelectorAll(".edit");
+export function editToDoItem(itemId) {
+  expandToDoItem(itemId);
 
   //TO DO - ripetizioni deliranti, refactor
-  // NON VA UN CAZZO, cioè non si espande
-  // e il form è troppo lungo
 
-  editIcon.forEach((item) => {
-    item.addEventListener("click", (event) => {
-      //figure out where user is editing
-      const itemDiv = event.target.parentElement;
-      const itemId = event.target.parentElement.id;
-      const projectId = findProjectId(itemId);
-      const projects = listProjects();
-      const item = projects[projectId].items[itemId];
-      const toDoItemContent = itemDiv.querySelector("ul");
+  const projectId = findProjectId(itemId);
+  const projects = listProjects();
+  const item = projects[projectId].items[itemId];
+  const toDoItemDiv = document.getElementById(itemId);
+  const content = toDoItemDiv.querySelector("ul");
 
-      toDoItemContent.replaceChildren();
+  content.replaceChildren();
 
-      //create editForm
-      const editForm = document.createElement("form");
+  //create editForm
+  const editForm = document.createElement("form");
+  editForm.classList.add("edit-form");
+  editForm.setAttribute("action", "");
 
-      for (const attr in item) {
-        const label = document.createElement("label");
-        label.setAttribute("for", `to-do-${attr}`);
-        label.textContent = attr;
-        if (attr === "priority") {
-          const select = document.createElement("select");
-          select.setAttribute("name", `to-do-${attr}`);
-          select.setAttribute("type", "text");
-          select.setAttribute("id", `to-do-${attr}`);
-          select.setAttribute("autofocus", "true");
-          const options = ["none", "low", "medium", "high", "urgent"];
-          for (const option of options) {
-            const priorityOption = document.createElement("option");
-            priorityOption.setAttribute("value", option);
-            if (item.priority === option) {
-              priorityOption.setAttribute("selected", true);
-            }
-            priorityOption.textContent = option;
+  for (const attr in item) {
+    if (attr === "id" || attr === "status" || attr === "projectId") continue;
+    const label = document.createElement("label");
+    label.setAttribute("for", `to-do-${attr}`);
+    label.textContent = attr;
+    if (attr === "priority") {
+      const select = document.createElement("select");
+      select.setAttribute("name", `to-do-${attr}`);
+      select.setAttribute("type", "text");
+      select.setAttribute("id", `${attr}`);
+      select.setAttribute("autofocus", "true");
 
-            select.appendChild(priorityOption);
-          }
-          select.addEventListener("focusout", () => {
-            updateToDo(itemId, attr, select.value);
-          });
-
-          select.addEventListener("keydown", (event) => {
-            if (event.key === "Enter") {
-              renderAllProjects();
-            }
-          });
-
-          toDoItemContent.appendChild(editForm);
-          editForm.appendChild(label);
-          editForm.appendChild(select);
-        } else {
-          const input = document.createElement("input");
-          input.setAttribute("name", `to-do-${attr}`);
-          input.setAttribute("type", "text");
-          input.setAttribute("id", `to-do-${attr}`);
-          input.setAttribute("value", item[attr]);
-          input.setAttribute("autofocus", "true");
-
-          toDoItemContent.appendChild(editForm);
-          editForm.appendChild(label);
-          editForm.appendChild(input);
-
-          input.addEventListener("focusout", () => {
-            updateToDo(itemId, attr, input.value);
-          });
-
-          input.addEventListener("keydown", (event) => {
-            if (event.key === "Enter") {
-              renderAllProjects();
-            }
-          });
+      const options = ["none", "low", "medium", "high", "urgent"];
+      for (const option of options) {
+        const priorityOption = document.createElement("option");
+        priorityOption.setAttribute("value", option);
+        if (item.priority === option) {
+          priorityOption.setAttribute("selected", true);
         }
+        priorityOption.textContent = option;
+
+        select.appendChild(priorityOption);
       }
-    });
-  });
+
+      content.replaceChildren();
+      content.appendChild(editForm);
+      editForm.appendChild(label);
+      editForm.appendChild(select);
+    } else if (attr === "dueDate") {
+      const input = document.createElement("input");
+      const formattedDate = lightFormat(item.dueDate, "yyyy-MM-dd");
+      input.setAttribute("name", `to-do-${attr}`);
+      input.setAttribute("type", "date");
+      input.setAttribute("id", `${attr}`);
+      input.setAttribute("value", formattedDate);
+      input.setAttribute("autofocus", "true");
+
+      content.appendChild(editForm);
+      editForm.appendChild(label);
+      editForm.appendChild(input);
+    } else {
+      const input = document.createElement("input");
+      input.setAttribute("name", `to-do-${attr}`);
+      input.setAttribute("type", "text");
+      input.setAttribute("id", `${attr}`);
+      input.setAttribute("value", item[attr]);
+      input.setAttribute("autofocus", "true");
+
+      content.appendChild(editForm);
+      editForm.appendChild(label);
+      editForm.appendChild(input);
+    }
+  }
+  //TO DO - remove page blinking after submit
+  const editSubmit = document.createElement("button");
+  editSubmit.setAttribute("type", "submit");
+  editSubmit.textContent = "Save";
+  editSubmit.classList.add("edit-submit");
+  editForm.appendChild(editSubmit);
 }
 
 export function createProjectSelectOptions() {

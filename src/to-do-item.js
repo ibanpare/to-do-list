@@ -10,7 +10,7 @@ export default function createToDoItem(item, projectId) {
     : new Date(item.dueDate);
   let priority = !item.priority ? "medium" : item.priority;
   let notes = item.notes;
-  let checklist = item.checklist;
+  //let checklist = item.checklist;
   let status = !item.status ? "open" : item.status;
 
   return {
